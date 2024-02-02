@@ -10,6 +10,32 @@ U64 bishopRay[64];
 U64 queenRay[64];
 
 
-U64 maskPawnAttacks(int, int);
+U64 maskPawnAttacks(int side, int square);
+
+void initMaskPawnAttacks();
+
 U64 maskKnightAttacks(int);
+
+void initMaskKnightAttacks();
+
+U64 maskKingAttacks(int);
+
+void initMaskKingAttacks();
+
+U64 maskRookRay(int);
+
+void initMaskRookRay();
+
+U64 maskBishopRay(int);
+void initMaskBishopRay();
+
+U64 maskQueenRay(int);
+
+void initMaskQueenRay();
+
+U64 maskRookAttacks(int, U64);
+
+U64 maskBishopAttacks(int, U64);
+
+U64 maskQueenAttacks(int, U64);
 #endif // ATTACKS_H_INCLUDED

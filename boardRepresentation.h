@@ -54,7 +54,6 @@ char ascii[]={'P','N','B','R','Q','K','p','n','b','r','q','k'};
 
 void printBoard();
 
-
 void printBoard()
 {
     for(int rank=0;rank<8;rank++)

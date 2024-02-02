@@ -38,6 +38,17 @@
 		<Unit filename="attacks.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="bitboard.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="bitboard.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="boardRepresentation.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="boardRepresentation.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

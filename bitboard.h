@@ -1,0 +1,6 @@
+#ifndef BITBOARD_H_INCLUDED
+#define BITBOARD_H_INCLUDED
+
+
+int popCount(U64);
+#endif // BITBOARD_H_INCLUDED

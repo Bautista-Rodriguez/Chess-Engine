@@ -5,6 +5,7 @@
 
 #include "boardRepresentation.h"
 #include "attacks.c"
+#include "bitboard.c"
 
 enum square{
     a1,b1,c1,d1,e1,f1,g1,h1,
@@ -39,12 +40,27 @@ int main()
     pieces |= 1ULL << c4;
     pieces |= 1ULL << e7;
     pieces |= 1ULL << h4;
-    //for(int i=0;i<64;i++)
+    for(int j = 0;j < 64;j++)
     {
-        U64 mask=maskQueenAttacks(e4,pieces);
-        printBitboard(pieces);
-        printf("\n");
-        printBitboard(mask);
+        for(int i=0;i<4096;i++)
+            occupancyRook[j][i]=occupancyRookAttacks(j,i);
     }
+    for(int j = 0;j < 64;j++)
+    {
+        for(int i=0;i<512;i++)
+            occupancyBishop[j][i]=occupancyBishopAttacks(j,i);
+    }
+    U64 bishopRay = maskBishopRay(e4);
+    printBitboard(bishopRay);
+    printf("\n");
+    for(int j = 63;j < 64;j++)
+    {
+        for(int i=511;i<512;i++){
+            printBitboard(occupancyBishop[e4][i]);
+            printf("\n");
+        }
+    }
+    //U64 maskRook=maskRookRay(a1);
+    //printBitboard(maskRook);
     return 0;
 }
