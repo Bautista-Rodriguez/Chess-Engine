@@ -1,41 +1,34 @@
 #ifndef ATTACKS_H_INCLUDED
 #define ATTACKS_H_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
 
-U64 pawnAttacks[2][64];
-U64 knightAttacks[64];
-U64 kingAttacks[64];
-U64 rookRay[64];
-U64 bishopRay[64];
-U64 queenRay[64];
+#include <stdint.h>
 
+#include "constsAndEnums.h"
 
 U64 maskPawnAttacks(int side, int square);
-
-void initMaskPawnAttacks();
-
-U64 maskKnightAttacks(int);
-
-void initMaskKnightAttacks();
-
-U64 maskKingAttacks(int);
-
+U64 maskKnightAttacks(int square);
+U64 maskKingAttacks(int square);
+U64 maskRookRay(int square);
+U64 maskBishopRay(int square);
+U64 maskQueenRay(int square);
+U64 maskRookAttacks(int square, U64 position);
+U64 maskBishopAttacks(int square, U64 position);
+U64 maskQueenAttacks(int square, U64 position);
+U64 occupancyRookAttacks(int square, int number);
+U64 occupancyBishopAttacks(int square, int number);
 void initMaskKingAttacks();
-
-U64 maskRookRay(int);
-
+void initMaskKnightAttacks();
+void initMaskPawnAttacks();
 void initMaskRookRay();
-
-U64 maskBishopRay(int);
 void initMaskBishopRay();
-
-U64 maskQueenRay(int);
-
 void initMaskQueenRay();
 
-U64 maskRookAttacks(int, U64);
-
-U64 maskBishopAttacks(int, U64);
-
-U64 maskQueenAttacks(int, U64);
+U64 getRookAttacks(int square, U64 occupancy);
+U64 getQueenAttacks(int square, U64 occupancy);
+U64 getBishopAttacks(int square, U64 occupancy);
+void initRookOccupancyAttacks();
+void initBishopOccupancyAttacks();
 #endif // ATTACKS_H_INCLUDED

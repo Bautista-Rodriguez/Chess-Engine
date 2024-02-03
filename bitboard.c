@@ -1,3 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <stdint.h>
+
+#include "bitboard.h"
+
 int popCount(U64 bitboard)
 {
     int c = 0;

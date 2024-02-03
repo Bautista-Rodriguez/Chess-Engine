@@ -33,25 +33,19 @@
 		</Compiler>
 		<Unit filename="attacks.c">
 			<Option compilerVar="CC" />
-			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="attacks.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="attacks.h" />
 		<Unit filename="bitboard.c">
 			<Option compilerVar="CC" />
-			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="bitboard.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="bitboard.h" />
 		<Unit filename="boardRepresentation.c">
 			<Option compilerVar="CC" />
-			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="boardRepresentation.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="boardRepresentation.h" />
+		<Unit filename="chessEngine.depend" />
+		<Unit filename="chessEngine.layout" />
+		<Unit filename="constsAndEnums.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

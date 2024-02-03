@@ -1,21 +1,61 @@
 # depslib dependency file v1.0
-1706913750 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\main.c
+1706998794 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdint.h>
-	"boardRepresentation.h"
-	"attacks.c"
-	"bitboard.c"
-
-1706902411 c:\users\bauty\desktop\bau\codeblocks\chessengine\boardrepresentation.h
-
-1706917252 c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.c
+	"constsAndEnums.h"
 	"boardRepresentation.h"
 	"attacks.h"
+	"bitboard.h"
 
-1706902587 c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.h
+1706983925 c:\users\bauty\desktop\bau\codeblocks\chessengine\boardrepresentation.h
+	"constsAndEnums.h"
 
-1706902456 c:\users\bauty\desktop\bau\codeblocks\chessengine\bitboard.h
+1706982250 c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	"constsAndEnums.h"
 
-1706904328 c:\users\bauty\desktop\bau\codeblocks\chessengine\bitboard.c
+1706998811 c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.h
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	"constsAndEnums.h"
+
+1706982326 c:\users\bauty\desktop\bau\codeblocks\chessengine\bitboard.h
+	"constsAndEnums.h"
+
+1706981724 c:\users\bauty\desktop\bau\codeblocks\chessengine\bitboard.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	"bitboard.h"
+
+1706989884 c:\users\bauty\desktop\bau\codeblocks\chessengine\constsandenums.h
+
+1706981983 c:\users\bauty\desktop\bau\codeblocks\chessengine\boardrepresentation.c
+	"boardRepresentation.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+
+1706998831 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	"attacks.h"
+	"bitboard.h"
+
+1706983925 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\boardrepresentation.c
+	"boardRepresentation.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+
+1706981724 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\bitboard.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	"bitboard.h"
 
