@@ -1,6 +1,9 @@
 #ifndef CONSTSANDENUMS_H_INCLUDED
 #define CONSTSANDENUMS_H_INCLUDED
 
+typedef unsigned long long  U64;
+
+
 enum square
 {
     a1,b1,c1,d1,e1,f1,g1,h1,
@@ -11,6 +14,36 @@ enum square
     a6,b6,c6,d6,e6,f6,g6,h6,
     a7,b7,c7,d7,e7,f7,g7,h7,
     a8,b8,c8,d8,e8,f8,g8,h8, noNum
+};
+
+enum moveType
+{
+    quietMove = 0b0000,
+    doublePush = 0b0001,
+    castleKing = 0b0010,
+    castleQueen = 0b0011,
+    capture = 0b0100,
+    enPassant = 0b0101,
+    knightProm = 0b1000,
+    bishopProm = 0b1001,
+    rookProm = 0b1010,
+    queenProm = 0b1011,
+    knightPromCap = 0b1100,
+    bishopPromCap = 0b1101,
+    rookPromCap = 0b1110,
+    queenPromCap = 0b1111
+};
+
+static const char squareChar[65][3] =
+{
+    "a1","b1","c1","d1","e1","f1","g1","h1",
+    "a2","b2","c2","d2","e2","f2","g2","h2",
+    "a3","b3","c3","d3","e3","f3","g3","h3",
+    "a4","b4","c4","d4","e4","f4","g4","h4",
+    "a5","b5","c5","d5","e5","f5","g5","h5",
+    "a6","b6","c6","d6","e6","f6","g6","h6",
+    "a7","b7","c7","d7","e7","f7","g7","h7",
+    "a8","b8","c8","d8","e8","f8","g8","h8", "no"
 };
 
 enum color
@@ -27,8 +60,6 @@ enum pieces
 {
     P, N, B, R, Q, K, p, n, b, r, q, k
 };
-
-typedef unsigned long long  U64;
 
 U64 pawnAttacks[2][64];
 U64 knightAttacks[64];

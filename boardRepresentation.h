@@ -3,7 +3,8 @@
 
 #include "constsAndEnums.h"
 
-void printBoard();
+void mapBoard(struct BoardState board, int boardArray[8][8]);
+void printBoard(struct BoardState board, int boardArray[8][8]);
 void printBitboard();
 void parseFEN(char *, struct BoardState *);
 

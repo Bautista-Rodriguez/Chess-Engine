@@ -304,7 +304,6 @@ U64 getBishopAttacks(int square, U64 occupancy)
     occupancy >>= bishopShifts[square];
     attacks = bishopOccupancy[square][occupancy];
     return attacks;
-
 }
 
 U64 getQueenAttacks(int square, U64 occupancy)

@@ -7,6 +7,7 @@
 #include "boardRepresentation.h"
 #include "attacks.h"
 #include "bitboard.h"
+#include "moveGen.h"
 
 int main()
 {
@@ -20,8 +21,8 @@ int main()
     initBishopOccupancyAttacks();
 
     struct BoardState board;
-    struct BoardState *bbb = &board;
-    parseFEN(startingPosition, bbb);
+    struct BoardState *boardPtr = &board;
+    parseFEN(startingPosition, boardPtr);
     int boardArray[8][8] = {
         {32,32,32,32,32,32,32,32},
         {32,32,32,32,32,32,32,32},
@@ -32,7 +33,8 @@ int main()
         {32,32,32,32,32,32,32,32},
         {32,32,32,32,32,32,32,32}
     };
-    printBoard(board, boardArray);
-
+    mapBoard(board,boardArray);
+    //printBoard(board,boardArray);
+    moveGenerator(board,0);
     return 0;
 }

@@ -19,3 +19,4 @@ int bitScan(U64 bitboard)
         return -1;
    return popCount((bitboard & -bitboard) - 1);
 }
+

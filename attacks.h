@@ -31,4 +31,5 @@ U64 getQueenAttacks(int square, U64 occupancy);
 U64 getBishopAttacks(int square, U64 occupancy);
 void initRookOccupancyAttacks();
 void initBishopOccupancyAttacks();
+
 #endif // ATTACKS_H_INCLUDED

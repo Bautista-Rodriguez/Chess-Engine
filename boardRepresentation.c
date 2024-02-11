@@ -21,7 +21,7 @@ void printBitboard(U64 bitboard)
     return;
 }
 
-void printBoard(struct BoardState board, int boardArray[8][8])
+void mapBoard(struct BoardState board, int boardArray[8][8])
 {
     for(int rank=0;rank<8;rank++)
     {
@@ -31,10 +31,15 @@ void printBoard(struct BoardState board, int boardArray[8][8])
             for(int bitBoardPiece=0;bitBoardPiece<12;bitBoardPiece++)
             {
                 if(board.bitboards[bitBoardPiece] & (1ULL << square))
-                   boardArray[rank][file]=bitBoardPiece;
+                    boardArray[rank][file]=bitBoardPiece;
             }
         }
     }
+    return;
+}
+
+void printBoard(struct BoardState board, int boardArray[8][8])
+{
     printf("\n   |---|---|---|---|---|---|---|---|\n");
     for(int rank=7;rank>=0;rank--)
     {
@@ -48,9 +53,15 @@ void printBoard(struct BoardState board, int boardArray[8][8])
         printf(" |\n   |---|---|---|---|---|---|---|---|\n");
     }
     printf("     A   B   C   D   E   F   G   H\n\n");
-    printf("castle Rights: %i\n", board.castle);
-    printf("Side To Move: %i\n", board.sideToMove);
-    printf("En Passant: %i\n", board.enPassant);
+    char castleRights[5];
+    castleRights[0] = (board.castle & (1ULL)) ? 'K' : '.';
+    castleRights[1] = (board.castle & (1ULL << 1)) ? 'Q' : '.';
+    castleRights[2] = (board.castle & (1ULL << 2)) ? 'k' : '.';
+    castleRights[3] = (board.castle & (1ULL << 3)) ? 'q' : '.';
+    castleRights[4]='\0';
+    printf("Castle Rights: %s\n", castleRights);
+    printf("Side To Move: %s\n", (!board.sideToMove) ? "White" : "Black");
+    printf("En Passant: %s\n", squareChar[board.enPassant]);
     printf("Half Moves: %i\n", board.halfMoveCount);
     printf("Full Moves: %i\n", board.fullMoveCount);
     return;
@@ -209,5 +220,12 @@ void parseFEN(char *stringFEN, struct BoardState *board)
             break;
         }
     }
+    board->occupancies[0] =
+        board->bitboards[0] | board->bitboards[1] | board->bitboards[2] |
+        board->bitboards[3] | board->bitboards[4] | board->bitboards[5];
+    board->occupancies[1] =
+        board->bitboards[6] | board->bitboards[7] | board->bitboards[8] |
+        board->bitboards[9] | board->bitboards[10] | board->bitboards[11];
+    board->occupancies[2] = board->occupancies[0] | board->occupancies[1];
     return;
 }
