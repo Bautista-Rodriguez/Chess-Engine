@@ -17,11 +17,11 @@ int isSquareAttacked(struct BoardState board, int square, int side)
     return 0;
 }
 
-void moveGenerator(struct BoardState board, int side)
+void moveGenerator(struct BoardState board, int side, int moveArray[])
 {
     long long unsigned int  attacks = 0ULL;
     int fromSquare, toSquare;
-    int moveArray[219], moveIndex = 0;
+    int moveIndex = 0;
     for(int piece = 0;piece < 6;piece++)
     {
         U64 bitboard=0ULL;
@@ -76,21 +76,21 @@ void moveGenerator(struct BoardState board, int side)
                 break;
             case 5:
                 if((board.castle & (1ULL << (0 + side*2))) &&
-                   (((1ULL << f1 + side*7) & board.occupancies[2]) == 0) &&
-                   (((1ULL << g1 + side*7) & board.occupancies[2]) == 0) &&
-                   !isSquareAttacked(board,f1 + side*7,(side+1)%2))
+                   (((1ULL << (f1 + side*56)) & board.occupancies[2]) == 0) &&
+                   (((1ULL << (g1 + side*56)) & board.occupancies[2]) == 0) &&
+                   !isSquareAttacked(board,f1 + side*56,(side+1)%2))
                 {
-                    moveArray[moveIndex] = (castleKing << 20) + (side << 19) + (piece << 16) + (fromSquare << 8) + toSquare;
+                    moveArray[moveIndex] = (castleKing << 20) + (side << 19) + (piece << 16) + (fromSquare << 8) + (g1 + side*56);
                     moveIndex++;
                 }
                 if((board.castle & (1ULL << (1 + side*2))) &&
-                   (((1ULL << b1 + side*7) & board.occupancies[2]) == 0) &&
-                   (((1ULL << c1 + side*7) & board.occupancies[2]) == 0) &&
-                   (((1ULL << d1 + side*7) & board.occupancies[2]) == 0) &&
-                   !isSquareAttacked(board,c1 + side*7,(side+1)%2) &&
-                   !isSquareAttacked(board,d1 + side*7,(side+1)%2))
+                   (((1ULL << (b1 + side*56)) & board.occupancies[2]) == 0) &&
+                   (((1ULL << (c1 + side*56)) & board.occupancies[2]) == 0) &&
+                   (((1ULL << (d1 + side*56)) & board.occupancies[2]) == 0) &&
+                   !isSquareAttacked(board,c1 + side*56,(side+1)%2) &&
+                   !isSquareAttacked(board,d1 + side*56,(side+1)%2))
                 {
-                    moveArray[moveIndex] = (castleQueen << 20) + (side << 19) + (piece << 16) + (fromSquare << 8) + toSquare;
+                    moveArray[moveIndex] = (castleQueen << 20) + (side << 19) + (piece << 16) + (fromSquare << 8) + (c1 + side*56);
                     moveIndex++;
                 }
                 attacks=kingAttacks[fromSquare];
@@ -137,6 +137,13 @@ void moveGenerator(struct BoardState board, int side)
             }
         }
     }
+    if(moveIndex>=256)
+    {
+        printf("\n--------------------------------------------------------------------------------\n");
+        printf("ERROR: NUMBER OF PSEUDO-LEGAL MOVES WAS GREATER THAN EXPECTED (GREATER THAN 255)");
+        printf("\n--------------------------------------------------------------------------------\n");
+        exit(-1);
+    }
     moveArray[moveIndex] = 0;
     return;
 }
@@ -152,5 +159,7 @@ void decodeMove(int move)
     int side = (move & 0x1ULL);
     move >>=1;
     int typeMove = (move & 0xFULL);
+    printf("%s\t%s\t%c\t%s\t",
+           squareChar[fromSquare],squareChar[toSquare],ascii[piece+side*6],typeMoveChar[typeMove]);
     return;
 }

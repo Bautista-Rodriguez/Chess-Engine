@@ -11,18 +11,11 @@
 
 int main()
 {
-    initMaskPawnAttacks();
-    initMaskKnightAttacks();
-    initMaskKingAttacks();
-    initMaskRookRay();
-    initMaskBishopRay();
-    initMaskQueenRay();
-    initRookOccupancyAttacks();
-    initBishopOccupancyAttacks();
+    initMasks();
 
     struct BoardState board;
     struct BoardState *boardPtr = &board;
-    parseFEN(startingPosition, boardPtr);
+    parseFEN("r3k2r/pppq1ppp/2npbn2/2b1p3/2B1P3/2NPBN2/PPPQ1PPP/R3K2R w KQkq - 6 8", boardPtr);
     int boardArray[8][8] = {
         {32,32,32,32,32,32,32,32},
         {32,32,32,32,32,32,32,32},
@@ -34,7 +27,9 @@ int main()
         {32,32,32,32,32,32,32,32}
     };
     mapBoard(board,boardArray);
-    //printBoard(board,boardArray);
-    moveGenerator(board,0);
+    int moveList[256];
+    struct BoardState boardCopy;
+    boardPtr = &boardCopy;
+    parseFEN("r3k2r/pppq1ppp/2npbn2/2b1p3/2B1P3/2NPBN2/PPPQ1PPP/R3K2R w KQkq - 6 8", boardPtr);
     return 0;
 }

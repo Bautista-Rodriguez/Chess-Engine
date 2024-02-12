@@ -25,6 +25,7 @@ void initMaskPawnAttacks();
 void initMaskRookRay();
 void initMaskBishopRay();
 void initMaskQueenRay();
+void initMasks();
 
 U64 getRookAttacks(int square, U64 occupancy);
 U64 getQueenAttacks(int square, U64 occupancy);

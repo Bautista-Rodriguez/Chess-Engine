@@ -34,6 +34,26 @@ enum moveType
     queenPromCap = 0b1111
 };
 
+static const char typeMoveChar[16][16]=
+{
+    "quiet",
+    "double push",
+    "castle king",
+    "castle queen",
+    "capture",
+    "en passant",
+    "",
+    "",
+    "knight prom",
+    "bishop prom",
+    "rook prom",
+    "queen prom",
+    "knight prom cap",
+    "bishop prom cap",
+    "rook prom cap",
+    "queen prom cap"
+};
+
 static const char squareChar[65][3] =
 {
     "a1","b1","c1","d1","e1","f1","g1","h1",

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1707661152 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\main.c
+1707759350 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdint.h>
@@ -18,7 +18,7 @@
 	<stdint.h>
 	"constsAndEnums.h"
 
-1707016635 c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.h
+1707759681 c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.h
 	<stdio.h>
 	<stdlib.h>
 	<stdint.h>
@@ -33,7 +33,7 @@
 	<stdint.h>
 	"bitboard.h"
 
-1707660878 c:\users\bauty\desktop\bau\codeblocks\chessengine\constsandenums.h
+1707755322 c:\users\bauty\desktop\bau\codeblocks\chessengine\constsandenums.h
 
 1706981983 c:\users\bauty\desktop\bau\codeblocks\chessengine\boardrepresentation.c
 	"boardRepresentation.h"
@@ -41,7 +41,7 @@
 	<stdlib.h>
 	<stdint.h>
 
-1707590275 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.c
+1707759681 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.c
 	<stdio.h>
 	<stdlib.h>
 	<stdint.h>
@@ -60,10 +60,10 @@
 	<stdint.h>
 	"bitboard.h"
 
-1707658581 c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.h
+1707753431 c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.h
 	"constsAndEnums.h"
 
-1707661196 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.c
+1707758054 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.c
 	"constsAndEnums.h"
 	"attacks.h"
 	"moveGen.h"

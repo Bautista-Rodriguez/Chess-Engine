@@ -363,3 +363,16 @@ void initMaskQueenRay()
         queenRay[square]=maskQueenRay(square);
     }
 }
+
+void initMasks()
+{
+    initMaskPawnAttacks();
+    initMaskKnightAttacks();
+    initMaskKingAttacks();
+    initMaskRookRay();
+    initMaskBishopRay();
+    initMaskQueenRay();
+    initRookOccupancyAttacks();
+    initBishopOccupancyAttacks();
+    return;
+}
