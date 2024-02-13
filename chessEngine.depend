@@ -1,13 +1,16 @@
 # depslib dependency file v1.0
-1707759350 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\main.c
+1707857408 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\main.c
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
 	<stdint.h>
 	"constsAndEnums.h"
 	"boardRepresentation.h"
 	"attacks.h"
 	"bitboard.h"
 	"moveGen.h"
+	"perft.h"
+	"makeUnmake.h"
 
 1707654924 c:\users\bauty\desktop\bau\codeblocks\chessengine\boardrepresentation.h
 	"constsAndEnums.h"
@@ -18,7 +21,7 @@
 	<stdint.h>
 	"constsAndEnums.h"
 
-1707759681 c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.h
+1707848975 c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.h
 	<stdio.h>
 	<stdlib.h>
 	<stdint.h>
@@ -33,7 +36,7 @@
 	<stdint.h>
 	"bitboard.h"
 
-1707755322 c:\users\bauty\desktop\bau\codeblocks\chessengine\constsandenums.h
+1707849007 c:\users\bauty\desktop\bau\codeblocks\chessengine\constsandenums.h
 
 1706981983 c:\users\bauty\desktop\bau\codeblocks\chessengine\boardrepresentation.c
 	"boardRepresentation.h"
@@ -41,14 +44,14 @@
 	<stdlib.h>
 	<stdint.h>
 
-1707759681 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.c
+1707848861 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\attacks.c
 	<stdio.h>
 	<stdlib.h>
 	<stdint.h>
 	"attacks.h"
 	"bitboard.h"
 
-1707660911 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\boardrepresentation.c
+1707863187 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\boardrepresentation.c
 	"boardRepresentation.h"
 	<stdio.h>
 	<stdlib.h>
@@ -60,11 +63,43 @@
 	<stdint.h>
 	"bitboard.h"
 
-1707753431 c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.h
+1707855410 c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.h
 	"constsAndEnums.h"
 
-1707758054 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.c
+1707855410 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.c
 	"constsAndEnums.h"
 	"attacks.h"
 	"moveGen.h"
+	"string.h"
+
+1707867611 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\perft.c
+	"perft.h"
+	"boardRepresentation.h"
+	"constsAndEnums.h"
+	"moveGen.h"
+	"makeUnmake.h"
+	"attacks.h"
+	"bitboard.h"
+
+1707857408 c:\users\bauty\desktop\bau\codeblocks\chessengine\perft.h
+	"constsAndEnums.h"
+	"boardRepresentation.h"
+	"attacks.h"
+	"bitboard.h"
+	"moveGen.h"
+	"perft.h"
+	"makeUnmake.h"
+
+1707867834 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\makeunmake.c
+	"constsAndEnums.h"
+	"attacks.h"
+	"moveGen.h"
+	"string.h"
+	"makeUnmake.h"
+
+1707851332 c:\users\bauty\desktop\bau\codeblocks\chessengine\makeunmake.h
+	"constsAndEnums.h"
+	"attacks.h"
+	"moveGen.h"
+	"string.h"
 

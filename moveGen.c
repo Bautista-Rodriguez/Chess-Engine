@@ -1,6 +1,7 @@
 #include "constsAndEnums.h"
 #include "attacks.h"
 #include "moveGen.h"
+#include "string.h"
 
 int isSquareAttacked(struct BoardState board, int square, int side)
 {
@@ -17,11 +18,15 @@ int isSquareAttacked(struct BoardState board, int square, int side)
     return 0;
 }
 
-void moveGenerator(struct BoardState board, int side, int moveArray[])
+//type piece   from      to
+//0000 0000 0000 0000 0000 0000
+
+void moveGenerator(struct BoardState board, int moveArray[])
 {
-    long long unsigned int  attacks = 0ULL;
+    U64  attacks = 0ULL;
     int fromSquare, toSquare;
     int moveIndex = 0;
+    int side = board.sideToMove;
     for(int piece = 0;piece < 6;piece++)
     {
         U64 bitboard=0ULL;
@@ -159,7 +164,7 @@ void decodeMove(int move)
     int side = (move & 0x1ULL);
     move >>=1;
     int typeMove = (move & 0xFULL);
-    printf("%s\t%s\t%c\t%s\t",
+    printf("%s%s%c %s\n",
            squareChar[fromSquare],squareChar[toSquare],ascii[piece+side*6],typeMoveChar[typeMove]);
     return;
 }

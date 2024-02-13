@@ -7,6 +7,8 @@
 #include "attacks.h"
 #include "bitboard.h"
 
+
+//Leaper pieces
 U64 maskPawnAttacks(int side, int square)
 {
     U64 attacks = 0ULL;
@@ -79,6 +81,8 @@ U64 maskKingAttacks(int square)
     return attacks;
 }
 
+//Slider pieces rays
+
 U64 maskRookRay(int square)
 {
     U64 ray = 0ULL;
@@ -143,8 +147,6 @@ U64 maskBishopRay(int square)
     return ray;
 }
 
-
-
 U64 maskQueenRay(int square)
 {
     U64 ray = 0ULL;
@@ -154,6 +156,8 @@ U64 maskQueenRay(int square)
 
     return ray;
 }
+
+//Slider pieces attacks mask
 
 U64 maskRookAttacks(int square, U64 position)
 {
@@ -231,6 +235,8 @@ U64 maskQueenAttacks(int square, U64 position)
     return attacks;
 }
 
+//Slider pieces occupancy attacks
+
 U64 occupancyRookAttacks(int square, int number)
 {
     U64 rookRay = maskRookRay(square);
@@ -243,33 +249,6 @@ U64 occupancyRookAttacks(int square, int number)
         rookRay &= rookRay - 1;
     }
     return occupancy;
-}
-
-void initRookOccupancyAttacks()
-{
-    for(int i = 0;i < 64;i++)
-    {
-        for(int j = 0;j < 4096;j++)
-        {
-            U64 occup = occupancyRookAttacks(i, j);
-            U64 magic_index = (occup * rookMagicNumbers[i]) >> rookShifts[i];
-            rookOccupancy[i][magic_index] = maskRookAttacks(i, occup);
-        }
-    }
-    return;
-}
-void initBishopOccupancyAttacks()
-{
-    for(int i = 0;i < 64;i++)
-    {
-        for(int j = 0;j < 512;j++)
-        {
-            U64 occup = occupancyBishopAttacks(i, j);
-            U64 magic_index = (occup * bishopMagicNumbers[i]) >> bishopShifts[i];
-            bishopOccupancy[i][magic_index] = maskBishopAttacks(i, occup);
-        }
-    }
-    return;
 }
 
 U64 occupancyBishopAttacks(int square, int number)
@@ -285,6 +264,8 @@ U64 occupancyBishopAttacks(int square, int number)
     }
     return occupancy;
 }
+
+//Get slider pieces attacks
 
 U64 getRookAttacks(int square, U64 occupancy)
 {
@@ -312,6 +293,35 @@ U64 getQueenAttacks(int square, U64 occupancy)
     attacks |= getBishopAttacks(square, occupancy);
     attacks |= getRookAttacks(square, occupancy);
     return attacks;
+}
+
+//Init masks
+
+void initRookOccupancyAttacks()
+{
+    for(int i = 0;i < 64;i++)
+    {
+        for(int j = 0;j < 4096;j++)
+        {
+            U64 occup = occupancyRookAttacks(i, j);
+            U64 magic_index = (occup * rookMagicNumbers[i]) >> rookShifts[i];
+            rookOccupancy[i][magic_index] = maskRookAttacks(i, occup);
+        }
+    }
+    return;
+}
+void initBishopOccupancyAttacks()
+{
+    for(int i = 0;i < 64;i++)
+    {
+        for(int j = 0;j < 512;j++)
+        {
+            U64 occup = occupancyBishopAttacks(i, j);
+            U64 magic_index = (occup * bishopMagicNumbers[i]) >> bishopShifts[i];
+            bishopOccupancy[i][magic_index] = maskBishopAttacks(i, occup);
+        }
+    }
+    return;
 }
 
 void initMaskKingAttacks()

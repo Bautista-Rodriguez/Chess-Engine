@@ -4,7 +4,7 @@
 #include "constsAndEnums.h"
 
 int isSquareAttacked(struct BoardState board, int square, int side);
-void moveGenerator(struct BoardState board, int side, int moveArray[]);
-void decodeMove(int move);
+void moveGenerator(struct BoardState board, int moveArray[]);
+void decodeMove(int chessMove);
 
 #endif // MOVEGEN_H_INCLUDED

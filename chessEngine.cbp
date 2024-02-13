@@ -49,10 +49,18 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="makeUnmake.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="makeUnmake.h" />
 		<Unit filename="moveGen.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="moveGen.h" />
+		<Unit filename="perft.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="perft.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

@@ -61,7 +61,7 @@ void printBoard(struct BoardState board, int boardArray[8][8])
     castleRights[4]='\0';
     printf("Castle Rights: %s\n", castleRights);
     printf("Side To Move: %s\n", (!board.sideToMove) ? "White" : "Black");
-    printf("En Passant: %s\n", squareChar[board.enPassant]);
+    printf("En Passant: %i\n", board.enPassant);
     printf("Half Moves: %i\n", board.halfMoveCount);
     printf("Full Moves: %i\n", board.fullMoveCount);
     return;
