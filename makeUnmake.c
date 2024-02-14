@@ -34,6 +34,9 @@ int makeMove(struct BoardState *board, int move)
     int enemySide = (side+1) % 2;
     int inCheck = (isSquareAttacked(*board,bitScan(board->bitboards[5 + side*6]),enemySide));
 
+    if(inCheck && isCastle)
+        return 1;
+
     //printf("%s%s%c %s\n",
     //       squareChar[fromSquare],squareChar[toSquare],ascii[piece+side*6],typeMoveChar[typeMove]);
     //decodeMove(move);
@@ -75,9 +78,9 @@ int makeMove(struct BoardState *board, int move)
             board->bitboards[enemyPiece + enemySide*6] &= ~(1ULL << toSquare);
             if(enemyPiece == 3)
             {
-                if(toSquare == a8 || toSquare == a1)
+                if(toSquare == (a1 + enemySide*56))
                     board->castle &= ~((0b0010 << enemySide*2));
-                else if(toSquare == h8 || toSquare == h1)
+                else if(toSquare == (h1 + enemySide*56))
                     board->castle &= ~((0b0001 << enemySide*2));
             }
         }
@@ -87,7 +90,7 @@ int makeMove(struct BoardState *board, int move)
         //board->occupancies[enemySide] ^= (1ULL << (isEnPassant) ? enPassantSquare : toSquare);
         //board->occupancies[2] ^= (1ULL << (isEnPassant) ? enPassantSquare : 64);
     }
-    board->enPassant = 64;
+    board->enPassant = 65;
     if(isDoublePush)
         board->enPassant = ((!side) ? (toSquare -  8) : (toSquare + 8));
     if(isCastle)
@@ -128,23 +131,8 @@ int makeMove(struct BoardState *board, int move)
     board->occupancies[1]=board->bitboards[6] | board->bitboards[7] | board->bitboards[8] |
     board->bitboards[9] | board->bitboards[10] | board->bitboards[11];
     board->occupancies[2]= board->occupancies[0] | board->occupancies[1];
-    if(isSquareAttacked(*board,bitScan(board->bitboards[5 + side*6]),enemySide) || (inCheck && isCastle))
+    if(isSquareAttacked(*board,bitScan(board->bitboards[5 + side*6]),enemySide))
     {
-        //printf("entered here\n");
-        //decodeMove(move);
-        /*decodeMove(move);
-        int bb[8][8]={32,32,32,32,32,32,32,32,
-                32,32,32,32,32,32,32,32,
-                32,32,32,32,32,32,32,32,
-                32,32,32,32,32,32,32,32,
-                32,32,32,32,32,32,32,32,
-                32,32,32,32,32,32,32,32,
-                32,32,32,32,32,32,32,32,
-                32,32,32,32,32,32,32,32};
-        mapBoard(*board,bb);
-        printBoard(*board,bb);
-        printf("\n");
-        printf("\nERROR\n");*/
         copyBoardState(boardCopy,board);
         return 1;
     }

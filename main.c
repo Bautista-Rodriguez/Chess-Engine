@@ -14,12 +14,10 @@
 int main()
 {
     initMasks();
-    //decodeMove(0b101110000000000000001000);
     struct BoardState board;
     struct BoardState *boardPtr=&board;
     parseFEN("r3k2r/Pppp1ppp/1b3nbN/nP6/BBPPP3/q4N2/Pp4PP/R2Q1RK1 b kq d3 0 1",boardPtr);
     int moveList[256];
     perftTest();
-    //printf("%i",(0b1000 & (1ULL << 3)));
     return 0;
 }

@@ -87,7 +87,7 @@ void parseFEN(char *stringFEN, struct BoardState *board)
     board->occupancies[0]=0ULL;
     board->occupancies[1]=0ULL;
     board->occupancies[2]=0ULL;
-    board->enPassant = noNum;
+    board->enPassant = 65;
     board->fullMoveCount = -1;
     board->halfMoveCount = -1;
     board->sideToMove = -1;

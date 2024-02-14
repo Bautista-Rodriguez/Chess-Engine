@@ -64,8 +64,14 @@ void moveGenerator(struct BoardState board, int moveArray[])
                         }
                     }
                 }
+                U64 aaa=(board.occupancies[(side+1)%2]);
+                aaa |= (0x1ULL << (board.enPassant));
                 attacks = pawnAttacks[side][fromSquare];
-                attacks &= (board.occupancies[(side+1)%2] | (1ULL << board.enPassant));
+                attacks &= aaa;
+                //printf("enpassant: %i\n",board.enPassant);
+                //attacks |= (1ULL << board.enPassant);
+                //printBitboard(attacks);
+                //printf("\n\n");
                 break;
             case 1:
                 attacks=knightAttacks[fromSquare];

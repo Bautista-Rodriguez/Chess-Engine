@@ -61,6 +61,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="perft.h" />
+		<Unit filename="search.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="search.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
