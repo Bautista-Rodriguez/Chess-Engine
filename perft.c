@@ -175,10 +175,10 @@ void perftTest()
     */
     ////
 
-    for(int i = 0;i < 47;i++)
+    for(int i = 0;i < 1;i++)
     {
-        parseFEN(cpositions[i],boardPtr);
-        for(int j = 3;j < 4;j++)
+        parseFEN(positions[i],boardPtr);
+        for(int j = 6;j < 7;j++)
         {
             U64 nodes;
             nodes=perftPosition(boardPtr,j+1);

@@ -89,6 +89,7 @@ void moveGenerator(struct BoardState board, int moveArray[])
                 if((board.castle & (1ULL << (0 + side*2))) &&
                    (((1ULL << (f1 + side*56)) & board.occupancies[2]) == 0) &&
                    (((1ULL << (g1 + side*56)) & board.occupancies[2]) == 0) &&
+                   !isSquareAttacked(board,e1 + side*56,(side+1)%2) &&
                    !isSquareAttacked(board,f1 + side*56,(side+1)%2))
                 {
                     moveArray[moveIndex] = (castleKing << 20) + (side << 19) + (piece << 16) + (fromSquare << 8) + (g1 + side*56);
@@ -98,6 +99,7 @@ void moveGenerator(struct BoardState board, int moveArray[])
                    (((1ULL << (b1 + side*56)) & board.occupancies[2]) == 0) &&
                    (((1ULL << (c1 + side*56)) & board.occupancies[2]) == 0) &&
                    (((1ULL << (d1 + side*56)) & board.occupancies[2]) == 0) &&
+                   !isSquareAttacked(board,e1 + side*56,(side+1)%2) &&
                    !isSquareAttacked(board,c1 + side*56,(side+1)%2) &&
                    !isSquareAttacked(board,d1 + side*56,(side+1)%2))
                 {

@@ -32,11 +32,6 @@ int makeMove(struct BoardState *board, int move)
     int isDoublePush = (typeMove == 0b0001);
     int isCastle = (typeMove==2 || typeMove==3);
     int enemySide = (side+1) % 2;
-    int inCheck = (isSquareAttacked(*board,bitScan(board->bitboards[5 + side*6]),enemySide));
-
-    if(inCheck && isCastle)
-        return 1;
-
     //printf("%s%s%c %s\n",
     //       squareChar[fromSquare],squareChar[toSquare],ascii[piece+side*6],typeMoveChar[typeMove]);
     //decodeMove(move);
