@@ -3,6 +3,7 @@
 #include "moveGen.h"
 #include "string.h"
 #include "makeUnmake.h"
+#include "bitboard.h"
 
 void copyBoardState(struct BoardState board,struct BoardState *boardCopy)
 {

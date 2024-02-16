@@ -1,6 +1,30 @@
 #include "constsAndEnums.h"
 #include "moveGen.h"
 #include "search.h"
+#include "bitboard.h"
+
+int sortMoves(struct BoardState board, int moveList[])
+{
+    int scores[256];
+    for(int i = 0;moveList[i] != 0;i++)
+        scores[i] = scoreMove(board,moveList[i]);
+    for(int i = 0;moveList[i] != 0;i++)
+    {
+        for(int j = i + 1;moveList[j] != 0;j++)
+        {
+            if(scores[i]<scores[j])
+            {
+                int auxScore = scores[i];
+                scores[i] = scores[j];
+                scores[j] = auxScore;
+                int auxMove = moveList[i];
+                moveList[i] = moveList[j];
+                moveList[j] = auxMove;
+            }
+        }
+    }
+    return 0;
+}
 
 int scoreMove(struct BoardState board, int move)
 {
@@ -99,7 +123,7 @@ int negamax(struct BoardState board, int alpha, int beta, int depth, int *bestMo
     {
         copyBoardState(board,boardCopyPtr);
         ply++;
-        if(makeMove(boardPtr,moveList[i]));
+        if(makeMove(boardPtr,moveList[i]))
         {
             ply--;
             continue;

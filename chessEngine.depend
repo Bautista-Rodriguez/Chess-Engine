@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1708003447 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\main.c
+1708115720 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -66,13 +66,14 @@
 1707957379 c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.h
 	"constsAndEnums.h"
 
-1708003447 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.c
+1708115645 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\movegen.c
 	"constsAndEnums.h"
 	"attacks.h"
 	"moveGen.h"
 	"string.h"
+	"bitboard.h"
 
-1708003447 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\perft.c
+1708114972 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\perft.c
 	"perft.h"
 	"boardRepresentation.h"
 	"constsAndEnums.h"
@@ -90,12 +91,13 @@
 	"perft.h"
 	"makeUnmake.h"
 
-1708003447 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\makeunmake.c
+1708115691 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\makeunmake.c
 	"constsAndEnums.h"
 	"attacks.h"
 	"moveGen.h"
 	"string.h"
 	"makeUnmake.h"
+	"bitboard.h"
 
 1708003251 c:\users\bauty\desktop\bau\codeblocks\chessengine\makeunmake.h
 	"constsAndEnums.h"
@@ -103,11 +105,12 @@
 	"moveGen.h"
 	"string.h"
 
-1708003291 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\search.c
+1708116014 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\search.c
 	"constsAndEnums.h"
 	"moveGen.h"
 	"search.h"
+	"bitboard.h"
 
-1707940812 c:\users\bauty\desktop\bau\codeblocks\chessengine\search.h
+1708114813 c:\users\bauty\desktop\bau\codeblocks\chessengine\search.h
 	"constsAndEnums.h"
 

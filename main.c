@@ -14,6 +14,5 @@
 int main()
 {
     initMasks();
-    perftTest();
     return 0;
 }

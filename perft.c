@@ -178,7 +178,7 @@ void perftTest()
     for(int i = 0;i < 1;i++)
     {
         parseFEN(positions[i],boardPtr);
-        for(int j = 6;j < 7;j++)
+        for(int j = 5;j < 6;j++)
         {
             U64 nodes;
             nodes=perftPosition(boardPtr,j+1);
@@ -209,7 +209,6 @@ U64 perftPosition(struct BoardState *board, int depth)
             nodes += perftPosition(board,depth - 1);
         copyBoardState(initBoard,board);
     }
-
     return nodes;
 }
 

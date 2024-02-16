@@ -2,6 +2,7 @@
 #include "attacks.h"
 #include "moveGen.h"
 #include "string.h"
+#include "bitboard.h"
 
 int isSquareAttacked(struct BoardState board, int square, int side)
 {
@@ -64,10 +65,10 @@ void moveGenerator(struct BoardState board, int moveArray[])
                         }
                     }
                 }
-                U64 aaa=(board.occupancies[(side+1)%2]);
-                aaa |= (0x1ULL << (board.enPassant));
+                U64 enemyOccupancy=(board.occupancies[(side+1)%2]);
+                enemyOccupancy |= (0x1ULL << (board.enPassant));
                 attacks = pawnAttacks[side][fromSquare];
-                attacks &= aaa;
+                attacks &= enemyOccupancy;
                 //printf("enpassant: %i\n",board.enPassant);
                 //attacks |= (1ULL << board.enPassant);
                 //printBitboard(attacks);
