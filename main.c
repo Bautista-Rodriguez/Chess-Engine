@@ -10,6 +10,7 @@
 #include "moveGen.h"
 #include "perft.h"
 #include "makeUnmake.h"
+#include "search.h"
 
 int main()
 {

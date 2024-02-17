@@ -75,6 +75,7 @@ int quietSearch(struct BoardState board, int alpha, int beta)
     int inCheck = isSquareAttacked(board,bitScan(board.bitboards[5 + side*6]),!side);
     int moveList[256];
     moveGenerator(board,moveList);
+    sortMoves(board,moveList);
     struct BoardState boardCopy;
     struct BoardState *boardCopyPtr = &boardCopy;
     struct BoardState *boardPtr = &board;
@@ -114,8 +115,11 @@ int negamax(struct BoardState board, int alpha, int beta, int depth, int *bestMo
         return quietSearch(board,alpha,beta);
     int side = board.sideToMove, legalMoves = 0;
     int inCheck = isSquareAttacked(board,bitScan(board.bitboards[5 + side*6]),!side);
+    if(inCheck)
+        depth++;
     int moveList[256];
     moveGenerator(board,moveList);
+    sortMoves(board,moveList);
     struct BoardState boardCopy;
     struct BoardState *boardCopyPtr = &boardCopy;
     struct BoardState *boardPtr = &board;
