@@ -21,9 +21,10 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-O3" />
 				</Compiler>
 				<Linker>
+					<Add option="-O3" />
 					<Add option="-s" />
 				</Linker>
 			</Target>
@@ -31,40 +32,30 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="attacks.c">
+		<Unit filename="src/board/bitboard.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="attacks.h" />
-		<Unit filename="bitboard.c">
+		<Unit filename="src/board/bitboard.h" />
+		<Unit filename="src/board/boardRepresentation.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="bitboard.h" />
-		<Unit filename="boardRepresentation.c">
+		<Unit filename="src/board/boardRepresentation.h" />
+		<Unit filename="src/board/moveGen.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="boardRepresentation.h" />
-		<Unit filename="chessEngine.depend" />
-		<Unit filename="chessEngine.layout" />
-		<Unit filename="constsAndEnums.h" />
-		<Unit filename="main.c">
+		<Unit filename="src/board/moveGen.h" />
+		<Unit filename="src/board/perft.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="makeUnmake.c">
+		<Unit filename="src/board/perft.h" />
+		<Unit filename="src/constsAndEnums.h" />
+		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="makeUnmake.h" />
-		<Unit filename="moveGen.c">
+		<Unit filename="src/search/search.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="moveGen.h" />
-		<Unit filename="perft.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="perft.h" />
-		<Unit filename="search.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="search.h" />
+		<Unit filename="src/search/search.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
