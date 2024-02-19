@@ -5,6 +5,6 @@
 #include "../constsAndEnums.h"
 #include "../board/moveGen.h"
 
-int negamax(struct BoardState board, int alpha, int beta, int depth, int *bestMove);
+int negamax(struct BoardState board, int alpha, int beta, int depth);
 void searchMove(struct BoardState board, int depth);
 #endif // SEARCH_H_INCLUDED

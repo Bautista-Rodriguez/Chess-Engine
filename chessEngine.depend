@@ -131,7 +131,7 @@
 	"../constsAndEnums.h"
 	"bitboard.h"
 
-1708271410 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\src\board\perft.c
+1708287518 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\src\board\perft.c
 	"perft.h"
 
 1708269462 c:\users\bauty\desktop\bau\codeblocks\chessengine\src\board\perft.h
@@ -140,7 +140,7 @@
 	"bitboard.h"
 	"moveGen.h"
 
-1708278697 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\src\main.c
+1708303768 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\src\main.c
 	<stdio.h>
 	<stdlib.h>
 	"constsAndEnums.h"
@@ -150,7 +150,7 @@
 	"board/perft.h"
 	"search/search.h"
 
-1708278720 c:\users\bauty\desktop\bau\codeblocks\chessengine\src\search\search.h
+1708312711 c:\users\bauty\desktop\bau\codeblocks\chessengine\src\search\search.h
 	"../board/bitboard.h"
 	"../constsAndEnums.h"
 	"../board/moveGen.h"

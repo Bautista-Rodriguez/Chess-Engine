@@ -4,28 +4,25 @@ int killerMoves[2][400];
 int historyMoves[12][64];
 int ply;
 
+int pvLength[400];
+int pvTable[400][400];
+
 void searchMove(struct BoardState board, int depth)
 {
-    int bestMove = 0;
-    int *bestMovePtr = &bestMove;
-    int score = negamax(board, -50000, 50000, depth, bestMovePtr);
-    if (bestMove)
-    {
-        exit(1);
-    }
-    exit(-1);
+    int score = negamax(board, -50000, 50000, depth);
+    exit(0);
 }
 
-int negamax(struct BoardState board, int alpha, int beta, int depth, int *bestMove)
+int negamax(struct BoardState board, int alpha, int beta, int depth)
 {
+    pvLength[ply] = ply;
     if(depth==0)
         return quietSearch(board,alpha,beta);
 
     if(inCheck(board))
         depth++;
 
-    int oldAlpha = alpha, legalMoves = 0, moveList[1000],
-    bestCurrentMove, side = board.sideToMove;
+    int legalMoves = 0, moveList[1000], side = board.sideToMove;
     moveGenerator(board,moveList);
     sortMoves(board,moveList);
     struct BoardState boardCopy;
@@ -41,14 +38,18 @@ int negamax(struct BoardState board, int alpha, int beta, int depth, int *bestMo
             continue;
         }
         legalMoves++;
-        int score = -negamax(board,-beta,-alpha,depth-1, bestMove);
+        int score = -negamax(board,-beta,-alpha,depth-1);
         ply--;
         copyBoardState(boardCopy,boardPtr);
 
         if(score >= beta)
         {
-            killerMoves[1][ply] = killerMoves[0][ply];
-            killerMoves[0][ply] = moveList[i];
+            int typeMove = getTypeMove(moveList[i]);
+            if((typeMove & capture) == 0)
+            {
+                killerMoves[1][ply] = killerMoves[0][ply];
+                killerMoves[0][ply] = moveList[i];
+            }
             return beta;
         }
         if(score > alpha)
@@ -57,10 +58,14 @@ int negamax(struct BoardState board, int alpha, int beta, int depth, int *bestMo
             int side = getSide(moveList[i]);
             int toSquare = getToSquare(moveList[i]);
             piece += side * 6;
-            historyMoves[piece][toSquare] += depth;
+            int typeMove = getTypeMove(moveList[i]);
+            if((typeMove & capture) == 0)
+                historyMoves[piece][toSquare] += depth;
             alpha = score;
-            if(ply == 0)
-                bestCurrentMove = moveList[i];
+            pvTable[ply][ply] = moveList[i];
+            for(int i = ply + 1;i < pvLength[ply + 1];i++)
+                pvTable[ply][i] = pvTable[ply + 1][i];
+            pvLength[ply] = pvLength[ply + 1];
         }
     }
     if(legalMoves == 0)
@@ -75,9 +80,6 @@ int negamax(struct BoardState board, int alpha, int beta, int depth, int *bestMo
             return 0;
         }
     }
-
-    if(oldAlpha != alpha)
-        *bestMove = bestCurrentMove;
     return alpha;
 }
 
