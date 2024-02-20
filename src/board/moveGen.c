@@ -191,8 +191,10 @@ void copyBoardState(struct BoardState board,struct BoardState *boardCopy)
     return;
 }
 
-int makeMove(struct BoardState *board, int move)
+int makeMove(struct BoardState *board, int move, int captureFlag)
 {
+    if(captureFlag && !(getTypeMove(move) & capture))
+        return 0;
     struct BoardState boardCopy;
     struct BoardState *boardCopyPtr = &boardCopy;
     copyBoardState(*board,boardCopyPtr);

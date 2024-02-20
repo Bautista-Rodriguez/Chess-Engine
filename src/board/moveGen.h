@@ -12,7 +12,7 @@ void moveGenerator(struct BoardState board, int moveArray[]);
 void decodeMove(int chessMove);
 int encodeMove(int type, int side, int piece, int fromSquare, int toSquare);
 void copyBoardState(struct BoardState board,struct BoardState *boardCopy);
-int makeMove(struct BoardState *boardPtr, int chessMove);
+int makeMove(struct BoardState *boardPtr, int chessMove, int captureFlag);
 U64 getLegalMovesCount(struct BoardState *board, int moveList[]);
 
 #endif // MOVEGEN_H_INCLUDED

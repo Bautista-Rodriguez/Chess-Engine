@@ -199,7 +199,7 @@ U64 perftPosition(struct BoardState *board, int depth)
     for(int i = 0;moveArray[i] != 0;i++)
     {
         copyBoardState(*board,initBoardPtr);
-        if(makeMove(board,moveArray[i]))
+        if(makeMove(board,moveArray[i],0))
             nodes += perftPosition(board,depth - 1);
         copyBoardState(initBoard,board);
     }

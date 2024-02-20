@@ -3,25 +3,43 @@
 int killerMoves[2][400];
 int historyMoves[12][64];
 int ply;
-
+int nodes;
 int pvLength[400];
 int pvTable[400][400];
 
 void searchMove(struct BoardState board, int depth)
 {
-    int score = negamax(board, -50000, 50000, depth);
-    exit(0);
+    int score;
+    memset(killerMoves,0,sizeof(killerMoves));
+    memset(historyMoves,0,sizeof(historyMoves));
+    memset(pvLength,0,sizeof(pvLength));
+    memset(pvTable,0,sizeof(pvTable));
+
+    for(int i = 0;i < depth;i++){
+        nodes=0;
+        score = negamax(board, -50000, 50000, i+1);
+        printf("%i\n",nodes);
+    }
+    decodeMove(pvTable[0][0]);
+    decodeMove(pvTable[0][1]);
+    decodeMove(pvTable[0][2]);
+    decodeMove(pvTable[0][3]);
+    decodeMove(pvTable[0][4]);
+    decodeMove(pvTable[0][5]);
+    exit(17);
 }
 
 int negamax(struct BoardState board, int alpha, int beta, int depth)
 {
+    if(ply > 399)
+        return evaluate(board);
     pvLength[ply] = ply;
     if(depth==0)
         return quietSearch(board,alpha,beta);
 
     if(inCheck(board))
         depth++;
-
+    nodes++;
     int legalMoves = 0, moveList[1000], side = board.sideToMove;
     moveGenerator(board,moveList);
     sortMoves(board,moveList);
@@ -32,7 +50,7 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
     {
         copyBoardState(board,boardCopyPtr);
         ply++;
-        if(!makeMove(boardPtr,moveList[i]))
+        if(!makeMove(boardPtr,moveList[i],0))
         {
             ply--;
             continue;
@@ -85,7 +103,8 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
 
 int quietSearch(struct BoardState board, int alpha, int beta)
 {
-    int evaluation = 0;//evaluatePositionFunction(); - TO BE IMPLEMENTED
+    nodes++;
+    int evaluation = evaluate(board);
     if(evaluation >= beta)
     {
         return beta;
@@ -106,7 +125,7 @@ int quietSearch(struct BoardState board, int alpha, int beta)
     {
         copyBoardState(board,boardCopyPtr);
         ply++;
-        //if(!makeMove(boardPtr,moveList[i],1));
+        if(!makeMove(boardPtr,moveList[i],1));
         {
             ply--;
             continue;
@@ -174,4 +193,12 @@ int sortMoves(struct BoardState board, int moveList[])
         }
     }
     return 0;
+}
+
+int evaluate(struct BoardState board)
+{
+    /**
+    TO BE IMPLEMENTED
+    **/
+    return 1;
 }
