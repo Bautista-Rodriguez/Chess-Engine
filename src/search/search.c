@@ -88,7 +88,7 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
     }
     if(legalMoves == 0)
     {
-        //TEST THAT INCHECK WORKS
+        ///TEST THAT INCHECK WORKS
         if(inCheck(board))
         {
             return -49000 + ply;
@@ -147,7 +147,7 @@ int scoreMove(struct BoardState board, int move)
     int side = getSide(move);
     int piece = getPiece(move);
     int toSquare = getToSquare(move);
-    //is capture
+    ///is capture
     if((move >> 20) & capture)
     {
         piece += side * 6;
@@ -165,10 +165,14 @@ int scoreMove(struct BoardState board, int move)
         victimPiece += (!side)*6;
         return (mvvLva[piece][victimPiece] + 10000);
     }
+
     if(killerMoves[0][ply] == move)
         return 9000;
     if(killerMoves[1][ply] == move)
         return 8000;
+    /**TEST WHERE TO WRITE THIS LINE
+    if(move == pvTable[0][ply]) return 1000;
+    **/
     return historyMoves[piece][toSquare];
 }
 
@@ -197,8 +201,5 @@ int sortMoves(struct BoardState board, int moveList[])
 
 int evaluate(struct BoardState board)
 {
-    /**
-    TO BE IMPLEMENTED
-    **/
     return 1;
 }
