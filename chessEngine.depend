@@ -140,7 +140,7 @@
 	"bitboard.h"
 	"moveGen.h"
 
-1708539369 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\src\main.c
+1708552996 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\src\main.c
 	<stdio.h>
 	<stdlib.h>
 	"constsAndEnums.h"
@@ -156,6 +156,6 @@
 	"../constsAndEnums.h"
 	"../board/moveGen.h"
 
-1708540352 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\src\search\search.c
+1708551543 source:c:\users\bauty\desktop\bau\codeblocks\chessengine\src\search\search.c
 	"search.h"
 
