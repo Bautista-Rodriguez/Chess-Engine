@@ -7,6 +7,9 @@ int nodes;
 int pvLength[400];
 int pvTable[400][400];
 
+const int fullDepth = 4;
+const int reductionLimit = 3;
+
 void searchMove(struct BoardState board, int depth)
 {
     int score;
@@ -21,9 +24,9 @@ void searchMove(struct BoardState board, int depth)
     **/
 
     for(int i = 0;i < depth;i++){
-        //nodes=0;
+        nodes=0;
         score = negamax(board, -50000, 50000, i+1);
-        //printf("%i\n",nodes);
+        printf("%i\n",nodes);
     }
     //decodeMove(pvTable[0][0]);
     //decodeMove(pvTable[0][1]);
@@ -36,18 +39,19 @@ void searchMove(struct BoardState board, int depth)
 
 int negamax(struct BoardState board, int alpha, int beta, int depth)
 {
-    int foundPV = 0;
-    if(ply > 399){
+    if(ply > 399)
+    {
     printf("ERROR: UNEXPECTED NUMBER OF PLY\n");
     exit(11);
-    return evaluate(board);}
+    return evaluate(board);
+    }
     pvLength[ply] = ply;
     if(depth==0)
         return quietSearch(board,alpha,beta);
-
     if(inCheck(board))
         depth++;
     nodes++;
+    int movesSearched = 0;
     int legalMoves = 0, moveList[256], side = board.sideToMove;
     moveGenerator(board,moveList);
     sortMoves(board,moveList);
@@ -65,16 +69,26 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
         }
         legalMoves++;
         int score;
-        if(foundPV)
-        {
-            score = -negamax(board,-alpha - 1,-alpha,depth - 1);
-            if((score > alpha) && (score < beta))
-                score = -negamax(board,-beta,-alpha,depth - 1);
-        }
-         else
+        if(!movesSearched)
             score = -negamax(board, -beta, -alpha, depth - 1);
+        else
+        {
+            int typeMove = getTypeMove(moveList[i]);
+            if((movesSearched >= fullDepth) && (depth >= reductionLimit) && !inCheck(board)
+               && !(typeMove & capture) && !(typeMove & promotion))
+                score = -negamax(board, -alpha - 1, -alpha, depth - 2);
+            else
+                score = alpha + 1;
+            if(score > alpha)
+            {
+                score = -negamax(board, -alpha - 1, -alpha, depth - 1);
+                if((score > alpha) && (score < beta))
+                    score = negamax(board, -beta, -alpha, depth - 1);
+            }
+        }
         ply--;
         copyBoardState(boardCopy,boardPtr);
+        movesSearched++;
 
         if(score >= beta)
         {
@@ -96,7 +110,6 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
             if((typeMove & capture) == 0)
                 historyMoves[piece][toSquare] += depth;
             alpha = score;
-            foundPV = 1;
             pvTable[ply][ply] = moveList[i];
             for(int i = ply + 1;i < pvLength[ply + 1];i++)
                 pvTable[ply][i] = pvTable[ply + 1][i];

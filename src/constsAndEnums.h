@@ -24,6 +24,7 @@ enum moveType
     castleQueen = 0b0011,
     capture = 0b0100,
     enPassant = 0b0101,
+    promotion = 0b1000,
     knightProm = 0b1000,
     bishopProm = 0b1001,
     rookProm = 0b1010,
