@@ -13,7 +13,7 @@ int main()
     initMasks();
     struct BoardState board;
     struct BoardState *boardPtr = &board;
-    parseFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -",boardPtr);
-    searchMove(board,7);
+    parseFEN("8/8/6pr/6p1/5pPk/5P1p/5P1K/R7 w - - 0 1",boardPtr);
+    searchMove(board,8);
     return 0;
 }

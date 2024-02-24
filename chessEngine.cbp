@@ -56,6 +56,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/search/search.h" />
+		<Unit filename="src/search/transpositionTable.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/search/transpositionTable.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

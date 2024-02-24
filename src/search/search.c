@@ -22,18 +22,29 @@ void searchMove(struct BoardState board, int depth)
     RESEARCH ABOUT:
     ITERATIVE DEEPENING vs DIRECT DEPTH SEARCH
     **/
-
-    for(int i = 0;i < depth;i++){
+    int alpha = -200000, beta = 200000;
+    for(int i = 0;i < depth;i++)
+    {
         nodes=0;
-        score = negamax(board, -50000, 50000, i+1);
-        printf("%i\n",nodes);
+        score = negamax(board, alpha, beta, i+1);
+        if((score <= alpha) || (score >= beta))
+        {
+            alpha = -200000;
+            beta = 200000;
+            continue;
+        }
+        alpha = score - 50;
+        beta = score + 50;
+        printf("depth %i: %i\n",i+1, nodes);
     }
-    //decodeMove(pvTable[0][0]);
-    //decodeMove(pvTable[0][1]);
-    //decodeMove(pvTable[0][2]);
-    //decodeMove(pvTable[0][3]);
-    //decodeMove(pvTable[0][4]);
-    //decodeMove(pvTable[0][5]);
+    decodeMove(pvTable[0][0]);
+    decodeMove(pvTable[0][1]);
+    decodeMove(pvTable[0][2]);
+    decodeMove(pvTable[0][3]);
+    decodeMove(pvTable[0][4]);
+    decodeMove(pvTable[0][5]);
+    decodeMove(pvTable[0][6]);
+    decodeMove(pvTable[0][7]);
     exit(17);
 }
 
@@ -48,16 +59,28 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
     pvLength[ply] = ply;
     if(depth==0)
         return quietSearch(board,alpha,beta);
-    if(inCheck(board))
+    int isInCheck = inCheck(board);
+    if(isInCheck)
         depth++;
     nodes++;
-    int movesSearched = 0;
-    int legalMoves = 0, moveList[256], side = board.sideToMove;
-    moveGenerator(board,moveList);
-    sortMoves(board,moveList);
+    int legalMoves = 0;
     struct BoardState boardCopy;
     struct BoardState *boardCopyPtr = &boardCopy;
     struct BoardState *boardPtr = &board;
+    if(depth >= 3 && !isInCheck && ply)
+    {
+        copyBoardState(board,boardCopyPtr);
+        board.sideToMove ^= 1;
+        board.enPassant = 65;
+        int score = -negamax(board,-beta,-beta + 1,depth - 3);
+        copyBoardState(boardCopy,boardPtr);
+        if(score >= beta)
+            return beta;
+    }
+    int moveList[256], side = board.sideToMove;
+    moveGenerator(board,moveList);
+    sortMoves(board,moveList);
+    int movesSearched = 0;
     for(int i = 0;moveList[i] != 0;i++)
     {
         copyBoardState(board,boardCopyPtr);
@@ -74,7 +97,7 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
         else
         {
             int typeMove = getTypeMove(moveList[i]);
-            if((movesSearched >= fullDepth) && (depth >= reductionLimit) && !inCheck(board)
+            if((movesSearched >= fullDepth) && (depth >= reductionLimit) && !isInCheck
                && !(typeMove & capture) && !(typeMove & promotion))
                 score = -negamax(board, -alpha - 1, -alpha, depth - 2);
             else
@@ -83,7 +106,7 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
             {
                 score = -negamax(board, -alpha - 1, -alpha, depth - 1);
                 if((score > alpha) && (score < beta))
-                    score = negamax(board, -beta, -alpha, depth - 1);
+                    score = -negamax(board, -beta, -alpha, depth - 1);
             }
         }
         ply--;
@@ -201,7 +224,7 @@ int scoreMove(struct BoardState board, int move)
     if(killerMoves[1][ply] == move)
         return 8000;
     /**TEST WHERE TO WRITE THIS LINE
-    if(move == pvTable[0][ply]) return 1000;
+    if(move == pvTable[0][ply]) return 20000;
     **/
     return historyMoves[piece][toSquare];
 }
@@ -228,7 +251,6 @@ int sortMoves(struct BoardState board, int moveList[])
     }
     return 0;
 }
-
 
 int evaluate(struct BoardState board)
 {
