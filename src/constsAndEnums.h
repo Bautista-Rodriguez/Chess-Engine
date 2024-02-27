@@ -157,6 +157,11 @@ static const int mvvLva[12][12] = {
 	{100, 200, 300, 400, 500, 600, 100, 200, 300, 400, 500, 600}
 };
 
+U64 pieceKeys[12][64];
+U64 enPassantKeys[8];
+U64 castleKeys[16];
+U64 sideKey;
+
 //MAGIC BITBOARDS CONSTANTS
 
 static const int rookShifts[64] = { 52, 52, 52, 52, 52, 52, 52, 52,

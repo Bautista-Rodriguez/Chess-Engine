@@ -3,5 +3,9 @@
 
 #include "../constsAndEnums.h"
 
+void initKeys();
+generateHashKey(struct BoardState board);
+unsigned int getRandomBits();
+U64 get64Bits();
 
 #endif // TRANSPOSITIONTABLE_H_INCLUDED
