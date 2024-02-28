@@ -98,6 +98,7 @@ struct BoardState
     int enPassant;
     int halfMoveCount;
     int fullMoveCount;
+    U64 hashKey;
 };
 
 U64 bishopOccupancy[64][512];
@@ -129,7 +130,7 @@ static const U64 rank6 = rank1 << 8*5;
 static const U64 rank7 = rank1 << 8*6;
 static const U64 rank8 = rank1 << 8*7;
 
-static const int castling_rights[64] = {
+static const int castlingRights[64] = {
      7, 15, 15, 15,  3, 15, 15, 11,
     15, 15, 15, 15, 15, 15, 15, 15,
     15, 15, 15, 15, 15, 15, 15, 15,

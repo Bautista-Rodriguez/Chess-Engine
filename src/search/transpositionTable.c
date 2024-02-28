@@ -17,7 +17,7 @@ void initKeys()
     return;
 }
 
-generateHashKey(struct BoardState board)
+U64 generateHashKey(struct BoardState board)
 {
     U64 bitboard, finalKey = 0ULL;
     for(int i = 0;i < 12;i++)
@@ -35,9 +35,10 @@ generateHashKey(struct BoardState board)
         int enPassantFile = (board.enPassant % 8);
         finalKey ^= enPassantKeys[enPassantFile];
     }
+    finalKey ^= castleKeys[board.castle];
     if(board.sideToMove == 1)
         finalKey ^= sideKey;
-    return;
+    return finalKey;
 }
 
 unsigned int getRandomBits()

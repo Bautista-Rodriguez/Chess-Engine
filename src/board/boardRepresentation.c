@@ -22,6 +22,13 @@ void mapBoard(struct BoardState board, int boardArray[8][8])
     {
         for(int file=0;file<8;file++)
         {
+            boardArray[file][rank] = 32;
+        }
+    }
+    for(int rank=0;rank<8;rank++)
+    {
+        for(int file=0;file<8;file++)
+        {
             int square = rank*8 + file;
             for(int bitBoardPiece=0;bitBoardPiece<12;bitBoardPiece++)
             {
@@ -59,6 +66,7 @@ void printBoard(struct BoardState board, int boardArray[8][8])
     printf("En Passant: %i\n", board.enPassant);
     printf("Half Moves: %i\n", board.halfMoveCount);
     printf("Full Moves: %i\n", board.fullMoveCount);
+    printf("Hash Key: %llx\n",board.hashKey);
     return;
 }
 
@@ -222,5 +230,6 @@ void parseFEN(char *stringFEN, struct BoardState *board)
         board->bitboards[6] | board->bitboards[7] | board->bitboards[8] |
         board->bitboards[9] | board->bitboards[10] | board->bitboards[11];
     board->occupancies[2] = board->occupancies[0] | board->occupancies[1];
+    board->hashKey = generateHashKey(*board);
     return;
 }

@@ -4,7 +4,7 @@
 #include "../constsAndEnums.h"
 
 void initKeys();
-generateHashKey(struct BoardState board);
+U64 generateHashKey(struct BoardState board);
 unsigned int getRandomBits();
 U64 get64Bits();
 
