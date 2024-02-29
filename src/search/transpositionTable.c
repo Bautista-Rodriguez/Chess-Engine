@@ -4,9 +4,9 @@ unsigned int randomState = 1804289383;
 
 void initKeys()
 {
-    for (int i = 0;i < 12;i++)
+    for (int j = 0;j < 64;j++)
     {
-        for (int j = 0;j < 64;j++)
+        for (int i = 0;i < 12;i++)
             pieceKeys[i][j] = get64Bits();
     }
     for (int i = 0;i < 8;i++)
@@ -19,7 +19,7 @@ void initKeys()
 
 U64 generateHashKey(struct BoardState board)
 {
-    U64 bitboard, finalKey = 0ULL;
+    U64 bitboard =0ULL, finalKey = 0ULL;
     for(int i = 0;i < 12;i++)
     {
         bitboard = board.bitboards[i];
@@ -27,10 +27,10 @@ U64 generateHashKey(struct BoardState board)
         {
             int square = bitScan(bitboard);
             finalKey ^= pieceKeys[i][square];
-            bitboard = popLSB(bitboard);
+            bitboard = (U64) popLSB(bitboard);
         }
     }
-    if(board.enPassant != 65)
+    if(board.enPassant < 64)
     {
         int enPassantFile = (board.enPassant % 8);
         finalKey ^= enPassantKeys[enPassantFile];
@@ -50,7 +50,6 @@ unsigned int getRandomBits()
     number ^= number << 5;
 
     randomState = number;
-
     return number;
 }
 

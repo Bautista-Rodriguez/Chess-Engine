@@ -2,6 +2,7 @@
 #define TRANSPOSITIONTABLE_H_INCLUDED
 
 #include "../constsAndEnums.h"
+#include "../board/bitboard.h"
 
 void initKeys();
 U64 generateHashKey(struct BoardState board);

@@ -210,7 +210,6 @@ int makeMove(struct BoardState *board, int move, int captureFlag)
     int isDoublePush = (typeMove == 0b0001);
     int isCastle = (typeMove==2 || typeMove==3);
     int enemySide = !side;
-
     board->bitboards[piece + side*6] ^= (1ULL << fromSquare);
     board->hashKey ^= pieceKeys[piece + side*6][fromSquare];
     if(isPromotion)
@@ -218,12 +217,12 @@ int makeMove(struct BoardState *board, int move, int captureFlag)
         int pieceProm = (typeMove & 0b0011);
         pieceProm++;
         board->bitboards[pieceProm + side*6] |= (1ULL << toSquare);
-        board->hashKey ^= pieceKeys[pieceProm + side*6][toSquare];
+        board->hashKey ^= (U64) pieceKeys[pieceProm + side*6][toSquare];
     }
     else
     {
         board->bitboards[piece + side*6] |= (1ULL << toSquare);
-        board->hashKey ^= pieceKeys[piece + side*6][toSquare];
+        board->hashKey ^= (U64) pieceKeys[piece + side*6][toSquare];
     }
     if(isCapture)
     {
@@ -231,7 +230,7 @@ int makeMove(struct BoardState *board, int move, int captureFlag)
         {
             int enPassantSquare = ((!enemySide) ? (toSquare +  8) : (toSquare - 8));
             board->bitboards[enemySide*6] &= ~(1ULL << enPassantSquare);
-            board->hashKey ^= pieceKeys[enemySide*6][enPassantSquare];
+            board->hashKey ^= (U64) pieceKeys[enemySide*6][enPassantSquare];
         }
         else
         {
@@ -242,13 +241,13 @@ int makeMove(struct BoardState *board, int move, int captureFlag)
                 if(bitboard & (1ULL << toSquare))
                 {
                     board->bitboards[i + enemySide*6] ^= (1ULL << toSquare);
-                    board->hashKey ^= pieceKeys[i + enemySide*6][toSquare];
+                    board->hashKey ^= (U64) pieceKeys[i + enemySide*6][toSquare];
                     break;
                 }
             }
         }
     }
-    if(board->enPassant != 65)
+    if(board->enPassant < 64)
     {
         int enPassantFile = board->enPassant % 8;
         board->hashKey ^= enPassantKeys[enPassantFile];
@@ -281,8 +280,8 @@ int makeMove(struct BoardState *board, int move, int captureFlag)
     board->castle &= castlingRights[fromSquare];
     board->castle &= castlingRights[toSquare];
     board->hashKey ^= castleKeys[board->castle];
-    board->hashKey ^= sideKey;
     board->sideToMove = enemySide;
+    board->hashKey ^= sideKey;
     board->occupancies[0]=board->bitboards[0] | board->bitboards[1] | board->bitboards[2] |
     board->bitboards[3] | board->bitboards[4] | board->bitboards[5];
     board->occupancies[1]=board->bitboards[6] | board->bitboards[7] | board->bitboards[8] |
@@ -293,6 +292,28 @@ int makeMove(struct BoardState *board, int move, int captureFlag)
         copyBoardState(boardCopy,board);
         return 0;
     }
+    /*
+    if(generateHashKey(*board) != board->hashKey)
+    {
+        printf("\n\n-----ERROR-------\n\n");
+        decodeMove(move);
+
+        int boardArray[8][8]=
+    {
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32
+    };
+    mapBoard(board,boardArray);
+    printBoard(board,boardArray);
+
+        exit(-1000);
+    }*/
     return 1;
 }
 

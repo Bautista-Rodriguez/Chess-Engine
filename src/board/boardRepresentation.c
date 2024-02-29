@@ -66,7 +66,7 @@ void printBoard(struct BoardState board, int boardArray[8][8])
     printf("En Passant: %i\n", board.enPassant);
     printf("Half Moves: %i\n", board.halfMoveCount);
     printf("Full Moves: %i\n", board.fullMoveCount);
-    printf("Hash Key: %llx\n",board.hashKey);
+    printf("Hash Key: \n%llx\n",board.hashKey);
     return;
 }
 
@@ -95,6 +95,7 @@ void parseFEN(char *stringFEN, struct BoardState *board)
     board->halfMoveCount = -1;
     board->sideToMove = -1;
     board->castle = 0;
+    board->hashKey = 0ULL;
     for(int i = 0;stringFEN[i] != '\0';i++)
     {
         char c = stringFEN[i];

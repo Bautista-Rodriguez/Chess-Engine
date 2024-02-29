@@ -4,6 +4,7 @@
 #include <string.h>
 #include "../constsAndEnums.h"
 #include "bitboard.h"
+#include "../search/transpositionTable.h"
 
 
 int isSquareAttacked(struct BoardState board, int square, int side);
