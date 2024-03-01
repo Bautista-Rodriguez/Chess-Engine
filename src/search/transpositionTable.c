@@ -1,6 +1,43 @@
 #include "transpositionTable.h"
 
+//const hashSize = 0x40000000;
+
+enum hashFlags{
+exactHF = 0,
+alphaHF = 1,
+betaHF = 2
+};
+
+typedef struct{
+U64 key;
+int depth;
+int flags;
+int score;
+} HashT;
+
+HashT *hashTable;
+
 unsigned int randomState = 1804289383;
+
+void initHashTable()
+{
+        printf("ssss: %i",sizeof(int));
+
+    hashTable = (HashT*) malloc(10000000 * sizeof(HashT));
+    return;
+}
+
+void clearHashTable()
+{
+    for(U64 i = 0ULL;i < 10;i++){}
+    /*{
+        hashTable[i].key = 0ULL;
+        hashTable[i].depth = 0;
+        hashTable[i].flags = 0;
+        hashTable[i].score = 0;
+    }*/
+    return;
+}
 
 void initKeys()
 {

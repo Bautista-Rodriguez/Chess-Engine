@@ -8,5 +8,7 @@ void initKeys();
 U64 generateHashKey(struct BoardState board);
 unsigned int getRandomBits();
 U64 get64Bits();
+void initHashTable();
+void clearHashTable();
 
 #endif // TRANSPOSITIONTABLE_H_INCLUDED
