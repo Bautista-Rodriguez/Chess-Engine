@@ -1,19 +1,14 @@
 #include "transpositionTable.h"
 
-//const hashSize = 0x40000000;
-
+const U64 hashSize = 1000ULL;
+///                  178956970
 enum hashFlags{
 exactHF = 0,
 alphaHF = 1,
 betaHF = 2
 };
 
-typedef struct{
-U64 key;
-int depth;
-int flags;
-int score;
-} HashT;
+
 
 HashT *hashTable;
 
@@ -21,21 +16,25 @@ unsigned int randomState = 1804289383;
 
 void initHashTable()
 {
-        printf("ssss: %i",sizeof(int));
-
-    hashTable = (HashT*) malloc(10000000 * sizeof(HashT));
+    hashTable = (HashT*) malloc(hashSize * sizeof(HashT));
     return;
 }
 
 void clearHashTable()
 {
-    for(U64 i = 0ULL;i < 10;i++){}
-    /*{
+    for(U64 i = 0ULL;i < hashSize;i++)
+    {
         hashTable[i].key = 0ULL;
         hashTable[i].depth = 0;
         hashTable[i].flags = 0;
         hashTable[i].score = 0;
-    }*/
+    }
+    return;
+}
+
+void freeHashTable()
+{
+    free(hashTable);
     return;
 }
 
@@ -102,3 +101,42 @@ U64 get64Bits()
 
     return (n1 | (n2 << 16) | (n3 << 32) | (n4 << 48));
 }
+
+int hashTableRead(int alpha,int beta,int depth, U64 key)
+{
+    HashT *hashEntry = &hashTable[key % hashSize];
+
+    if(hashEntry->key == key)
+    {
+        if(hashEntry->depth >= depth)
+        {
+            if(hashEntry->flags == exactHF)
+            {
+                printf("exact score: ");
+                return hashEntry->score;
+            }
+            if ((hashEntry->flags == alphaHF) && (hashEntry->score <= alpha))
+            {
+                printf("alpha score: ");
+                return alpha;
+            }
+            if((hashEntry->flags == betaHF) && (hashEntry->score >= beta))
+            {
+                printf(" beta score: ");
+                return beta;
+            }
+        }
+    }
+    return 300000;
+}
+
+void hashTableWrite(int score,int depth,int hashFlag,U64 key)
+{
+    HashT *hashEntry = &hashTable[key % hashSize];
+
+    hashEntry->key = key;
+    hashEntry->score = score;
+    hashEntry->flags = hashFlag;
+    hashEntry->depth = depth;
+}
+

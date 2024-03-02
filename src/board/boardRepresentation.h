@@ -5,7 +5,7 @@
 #include "../search/transpositionTable.h"
 
 void mapBoard(struct BoardState board, int boardArray[8][8]);
-void printBoard(struct BoardState board, int boardArray[8][8]);
+void printBoard(struct BoardState board);
 void printBitboard();
 void parseFEN(char *, struct BoardState *);
 

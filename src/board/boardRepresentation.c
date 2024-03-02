@@ -40,8 +40,20 @@ void mapBoard(struct BoardState board, int boardArray[8][8])
     return;
 }
 
-void printBoard(struct BoardState board, int boardArray[8][8])
+void printBoard(struct BoardState board)
 {
+    int boardArray[8][8] =
+    {
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32
+    };
+    mapBoard(board,boardArray);
     printf("\n   |---|---|---|---|---|---|---|---|\n");
     for(int rank=7;rank>=0;rank--)
     {
@@ -63,10 +75,10 @@ void printBoard(struct BoardState board, int boardArray[8][8])
     castleRights[4]='\0';
     printf("Castle Rights: %s\n", castleRights);
     printf("Side To Move: %s\n", (!board.sideToMove) ? "White" : "Black");
-    printf("En Passant: %i\n", board.enPassant);
+    printf("En Passant: %s\n", squareChar[board.enPassant]);
     printf("Half Moves: %i\n", board.halfMoveCount);
     printf("Full Moves: %i\n", board.fullMoveCount);
-    printf("Hash Key: \n%llx\n",board.hashKey);
+    printf("Hash Key: %llx\n",board.hashKey);
     return;
 }
 

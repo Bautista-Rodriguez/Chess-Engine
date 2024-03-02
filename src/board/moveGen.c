@@ -292,28 +292,6 @@ int makeMove(struct BoardState *board, int move, int captureFlag)
         copyBoardState(boardCopy,board);
         return 0;
     }
-    /*
-    if(generateHashKey(*board) != board->hashKey)
-    {
-        printf("\n\n-----ERROR-------\n\n");
-        decodeMove(move);
-
-        int boardArray[8][8]=
-    {
-    32,32,32,32,32,32,32,32,
-    32,32,32,32,32,32,32,32,
-    32,32,32,32,32,32,32,32,
-    32,32,32,32,32,32,32,32,
-    32,32,32,32,32,32,32,32,
-    32,32,32,32,32,32,32,32,
-    32,32,32,32,32,32,32,32,
-    32,32,32,32,32,32,32,32
-    };
-    mapBoard(board,boardArray);
-    printBoard(board,boardArray);
-
-        exit(-1000);
-    }*/
     return 1;
 }
 
