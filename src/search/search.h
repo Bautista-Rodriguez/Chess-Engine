@@ -2,8 +2,9 @@
 #define SEARCH_H_INCLUDED
 
 #include <string.h>
-#include "../board/bitboard.h"
 #include "../constsAndEnums.h"
+#include "transpositionTable.h"
+#include "../board/bitboard.h"
 #include "../board/moveGen.h"
 
 void searchMove(struct BoardState board, int depth);

@@ -4,13 +4,6 @@
 #include "../constsAndEnums.h"
 #include "../board/bitboard.h"
 
-typedef struct{
-U64 key;
-int depth;
-int flags;
-int score;
-} HashT;
-
 void initKeys();
 U64 generateHashKey(struct BoardState board);
 unsigned int getRandomBits();

@@ -45,6 +45,7 @@ void searchMove(struct BoardState board, int depth)
     decodeMove(pvTable[0][5]);
     decodeMove(pvTable[0][6]);
     decodeMove(pvTable[0][7]);
+    decodeMove(pvTable[0][8]);
     exit(17);
 }
 
@@ -56,6 +57,10 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
     exit(11);
     return evaluate(board);
     }
+    int score;
+    int hashFlag = alphaHF;
+    if((score = hashTableRead(alpha, beta, depth,board.hashKey)) != 300000)
+        return score;
     pvLength[ply] = ply;
     if(depth==0)
         return quietSearch(board,alpha,beta);
@@ -72,7 +77,7 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
         copyBoardState(board,boardCopyPtr);
         board.sideToMove ^= 1;
         board.enPassant = 65;
-        int score = -negamax(board,-beta,-beta + 1,depth - 3);
+        score = -negamax(board,-beta,-beta + 1,depth - 3);
         copyBoardState(boardCopy,boardPtr);
         if(score >= beta)
             return beta;
@@ -91,7 +96,6 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
             continue;
         }
         legalMoves++;
-        int score;
         if(!movesSearched)
             score = -negamax(board, -beta, -alpha, depth - 1);
         else
@@ -104,9 +108,9 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
                 score = alpha + 1;
             if(score > alpha)
             {
-                score = -negamax(board, -alpha - 1, -alpha, depth - 1);
+                score = -negamax(board,-alpha - 1,-alpha,depth - 1);
                 if((score > alpha) && (score < beta))
-                    score = -negamax(board, -beta, -alpha, depth - 1);
+                    score = -negamax(board,-beta,-alpha,depth - 1);
             }
         }
         ply--;
@@ -115,6 +119,7 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
 
         if(score >= beta)
         {
+            hashTableWrite(beta,depth,betaHF,board.hashKey);
             int typeMove = getTypeMove(moveList[i]);
             if((typeMove & capture) == 0)
             {
@@ -125,6 +130,7 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
         }
         if(score > alpha)
         {
+            hashFlag = exactHF;
             int piece = getPiece(moveList[i]);
             int side = getSide(moveList[i]);
             int toSquare = getToSquare(moveList[i]);
@@ -151,6 +157,7 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
             return 0;
         }
     }
+    hashTableWrite(alpha,depth,hashFlag,board.hashKey);
     return alpha;
 }
 

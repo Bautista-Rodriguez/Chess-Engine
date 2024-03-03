@@ -1,22 +1,12 @@
 #include "transpositionTable.h"
 
-const U64 hashSize = 1000ULL;
-///                  178956970
-enum hashFlags{
-exactHF = 0,
-alphaHF = 1,
-betaHF = 2
-};
-
-
-
-HashT *hashTable;
-
 unsigned int randomState = 1804289383;
 
 void initHashTable()
 {
+    initKeys();
     hashTable = (HashT*) malloc(hashSize * sizeof(HashT));
+    clearHashTable();
     return;
 }
 
@@ -111,20 +101,11 @@ int hashTableRead(int alpha,int beta,int depth, U64 key)
         if(hashEntry->depth >= depth)
         {
             if(hashEntry->flags == exactHF)
-            {
-                printf("exact score: ");
                 return hashEntry->score;
-            }
             if ((hashEntry->flags == alphaHF) && (hashEntry->score <= alpha))
-            {
-                printf("alpha score: ");
                 return alpha;
-            }
             if((hashEntry->flags == betaHF) && (hashEntry->score >= beta))
-            {
-                printf(" beta score: ");
                 return beta;
-            }
         }
     }
     return 300000;
@@ -138,5 +119,6 @@ void hashTableWrite(int score,int depth,int hashFlag,U64 key)
     hashEntry->score = score;
     hashEntry->flags = hashFlag;
     hashEntry->depth = depth;
+    return;
 }
 

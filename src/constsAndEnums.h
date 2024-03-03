@@ -101,6 +101,13 @@ struct BoardState
     U64 hashKey;
 };
 
+typedef struct{
+U64 key;
+int depth;
+int flags;
+int score;
+} HashT;
+
 U64 bishopOccupancy[64][512];
 U64 rookOccupancy[64][4096];
 
@@ -162,6 +169,16 @@ U64 pieceKeys[12][64];
 U64 enPassantKeys[8];
 U64 castleKeys[16];
 U64 sideKey;
+
+static const U64 hashSize = 100000000ULL;
+///                         178956970
+enum hashFlags{
+exactHF = 0,
+alphaHF = 1,
+betaHF = 2
+};
+
+HashT *hashTable;
 
 //MAGIC BITBOARDS CONSTANTS
 
