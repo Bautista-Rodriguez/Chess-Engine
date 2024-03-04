@@ -1,6 +1,7 @@
 #ifndef TRANSPOSITIONTABLE_H_INCLUDED
 #define TRANSPOSITIONTABLE_H_INCLUDED
 
+#include <string.h>
 #include "../constsAndEnums.h"
 #include "../board/bitboard.h"
 

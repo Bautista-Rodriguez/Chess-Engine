@@ -12,6 +12,8 @@ void initHashTable()
 
 void clearHashTable()
 {
+    memset(hashTable,0,sizeof(HashT)*hashSize);
+    /*
     for(U64 i = 0ULL;i < hashSize;i++)
     {
         hashTable[i].key = 0ULL;
@@ -19,6 +21,7 @@ void clearHashTable()
         hashTable[i].flags = 0;
         hashTable[i].score = 0;
     }
+    */
     return;
 }
 

@@ -17,6 +17,7 @@ void searchMove(struct BoardState board, int depth)
     memset(historyMoves,0,sizeof(historyMoves));
     memset(pvLength,0,sizeof(pvLength));
     memset(pvTable,0,sizeof(pvTable));
+    clearHashTable();
 
     /**
     RESEARCH ABOUT:
@@ -75,6 +76,9 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
     if(depth >= 3 && !isInCheck && ply)
     {
         copyBoardState(board,boardCopyPtr);
+        if(board.enPassant != 65)
+            boardPtr->hashKey ^= enPassantKeys[board.enPassant];
+        boardPtr->hashKey ^= sideKey;
         board.sideToMove ^= 1;
         board.enPassant = 65;
         score = -negamax(board,-beta,-beta + 1,depth - 3);
