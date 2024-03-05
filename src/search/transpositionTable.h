@@ -14,5 +14,6 @@ void freeHashTable();
 void clearHashTable();
 int hashTableRead(int alpha,int beta,int depth,U64 key);
 void hashTableWrite(int score,int depth,int hashFlag,U64 key);
+int isRepetition(U64 hashKey);
 
 #endif // TRANSPOSITIONTABLE_H_INCLUDED

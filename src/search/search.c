@@ -2,7 +2,6 @@
 
 int killerMoves[2][400];
 int historyMoves[12][64];
-int ply;
 int nodes;
 int pvLength[400];
 int pvTable[400][400];
@@ -17,7 +16,7 @@ void searchMove(struct BoardState board, int depth)
     memset(historyMoves,0,sizeof(historyMoves));
     memset(pvLength,0,sizeof(pvLength));
     memset(pvTable,0,sizeof(pvTable));
-    clearHashTable();
+    //clearHashTable();
 
     /**
     RESEARCH ABOUT:
@@ -60,7 +59,9 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
     }
     int score;
     int hashFlag = alphaHF;
-    if((score = hashTableRead(alpha, beta, depth,board.hashKey)) != 300000)
+    if(ply && isRepetition(board.hashKey))
+        return 0;
+    if(ply && !(beta - alpha > 1) && ((score = hashTableRead(alpha,beta,depth,board.hashKey)) != 300000))
         return score;
     pvLength[ply] = ply;
     if(depth==0)
@@ -76,12 +77,17 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
     if(depth >= 3 && !isInCheck && ply)
     {
         copyBoardState(board,boardCopyPtr);
+        ply++;
+        repetitionIndex++;
+        repetitionTable[repetitionIndex] = board.hashKey;
         if(board.enPassant != 65)
             boardPtr->hashKey ^= enPassantKeys[board.enPassant];
         boardPtr->hashKey ^= sideKey;
         board.sideToMove ^= 1;
         board.enPassant = 65;
         score = -negamax(board,-beta,-beta + 1,depth - 3);
+        ply--;
+        repetitionIndex--;
         copyBoardState(boardCopy,boardPtr);
         if(score >= beta)
             return beta;
@@ -94,9 +100,12 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
     {
         copyBoardState(board,boardCopyPtr);
         ply++;
+        repetitionIndex++;
+        repetitionTable[repetitionIndex] = board.hashKey;
         if(!makeMove(boardPtr,moveList[i],0))
         {
             ply--;
+            repetitionIndex--;
             continue;
         }
         legalMoves++;
@@ -118,20 +127,10 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
             }
         }
         ply--;
+        repetitionIndex--;
         copyBoardState(boardCopy,boardPtr);
         movesSearched++;
 
-        if(score >= beta)
-        {
-            hashTableWrite(beta,depth,betaHF,board.hashKey);
-            int typeMove = getTypeMove(moveList[i]);
-            if((typeMove & capture) == 0)
-            {
-                killerMoves[1][ply] = killerMoves[0][ply];
-                killerMoves[0][ply] = moveList[i];
-            }
-            return beta;
-        }
         if(score > alpha)
         {
             hashFlag = exactHF;
@@ -147,6 +146,17 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
             for(int i = ply + 1;i < pvLength[ply + 1];i++)
                 pvTable[ply][i] = pvTable[ply + 1][i];
             pvLength[ply] = pvLength[ply + 1];
+            if(score >= beta)
+            {
+                hashTableWrite(beta,depth,betaHF,board.hashKey);
+                int typeMove = getTypeMove(moveList[i]);
+                if((typeMove & capture) == 0)
+                {
+                    killerMoves[1][ply] = killerMoves[0][ply];
+                    killerMoves[0][ply] = moveList[i];
+                }
+                return beta;
+            }
         }
     }
     if(legalMoves == 0)
@@ -167,7 +177,15 @@ int negamax(struct BoardState board, int alpha, int beta, int depth)
 
 int quietSearch(struct BoardState board, int alpha, int beta)
 {
+    if(ply > 399)
+    {
+    printf("ERROR: UNEXPECTED NUMBER OF PLY\n");
+    exit(11);
+    return evaluate(board);
+    }
     nodes++;
+    if(ply && isRepetition(board.hashKey))
+        return 0;
     int evaluation = evaluate(board);
     if(evaluation >= beta)
     {
@@ -189,19 +207,25 @@ int quietSearch(struct BoardState board, int alpha, int beta)
     {
         copyBoardState(board,boardCopyPtr);
         ply++;
+        repetitionIndex++;
+        repetitionTable[repetitionIndex] = board.hashKey;
         if(!makeMove(boardPtr,moveList[i],1));
         {
             ply--;
+            repetitionIndex--;
             continue;
         }
         legalMoves++;
         int score = -quietSearch(board,-beta,-alpha);
         ply--;
+        repetitionIndex--;
         copyBoardState(boardCopy,boardPtr);
-        if(score >= beta)
-            return beta;
         if(score > alpha)
+        {
             alpha = score;
+            if(score >= beta)
+                return beta;
+        }
     }
     return alpha;
 }
@@ -263,7 +287,176 @@ int sortMoves(struct BoardState board, int moveList[])
     return 0;
 }
 
+/*
 int evaluate(struct BoardState board)
 {
     return 1;
+}*/
+
+/**********************************\
+ ==================================
+
+             Evaluation
+
+TEMPORARY EVALUATION TAKEN FROM ANOTHER
+SOURCE CODE, AS IT WILL LATER BE REPLACED
+
+I COPIED IT ONLY FOR TESTING PURPOSES
+
+ ==================================
+\**********************************/
+
+
+int material_score[12] = {
+    100,      // white pawn score
+    300,      // white knight scrore
+    350,      // white bishop score
+    500,      // white rook score
+   1000,      // white queen score
+  10000,      // white king score
+   -100,      // black pawn score
+   -300,      // black knight scrore
+   -350,      // black bishop score
+   -500,      // black rook score
+  -1000,      // black queen score
+ -10000,      // black king score
+};
+
+// pawn positional score
+const int pawn_score[64] =
+{
+    90,  90,  90,  90,  90,  90,  90,  90,
+    30,  30,  30,  40,  40,  30,  30,  30,
+    20,  20,  20,  30,  30,  30,  20,  20,
+    10,  10,  10,  20,  20,  10,  10,  10,
+     5,   5,  10,  20,  20,   5,   5,   5,
+     0,   0,   0,   5,   5,   0,   0,   0,
+     0,   0,   0, -10, -10,   0,   0,   0,
+     0,   0,   0,   0,   0,   0,   0,   0
+};
+
+// knight positional score
+const int knight_score[64] =
+{
+    -5,   0,   0,   0,   0,   0,   0,  -5,
+    -5,   0,   0,  10,  10,   0,   0,  -5,
+    -5,   5,  20,  20,  20,  20,   5,  -5,
+    -5,  10,  20,  30,  30,  20,  10,  -5,
+    -5,  10,  20,  30,  30,  20,  10,  -5,
+    -5,   5,  20,  10,  10,  20,   5,  -5,
+    -5,   0,   0,   0,   0,   0,   0,  -5,
+    -5, -10,   0,   0,   0,   0, -10,  -5
+};
+
+// bishop positional score
+const int bishop_score[64] =
+{
+     0,   0,   0,   0,   0,   0,   0,   0,
+     0,   0,   0,   0,   0,   0,   0,   0,
+     0,   0,   0,  10,  10,   0,   0,   0,
+     0,   0,  10,  20,  20,  10,   0,   0,
+     0,   0,  10,  20,  20,  10,   0,   0,
+     0,  10,   0,   0,   0,   0,  10,   0,
+     0,  30,   0,   0,   0,   0,  30,   0,
+     0,   0, -10,   0,   0, -10,   0,   0
+
+};
+
+// rook positional score
+const int rook_score[64] =
+{
+    50,  50,  50,  50,  50,  50,  50,  50,
+    50,  50,  50,  50,  50,  50,  50,  50,
+     0,   0,  10,  20,  20,  10,   0,   0,
+     0,   0,  10,  20,  20,  10,   0,   0,
+     0,   0,  10,  20,  20,  10,   0,   0,
+     0,   0,  10,  20,  20,  10,   0,   0,
+     0,   0,  10,  20,  20,  10,   0,   0,
+     0,   0,   0,  20,  20,   0,   0,   0
+
+};
+
+// king positional score
+const int king_score[64] =
+{
+     0,   0,   0,   0,   0,   0,   0,   0,
+     0,   0,   5,   5,   5,   5,   0,   0,
+     0,   5,   5,  10,  10,   5,   5,   0,
+     0,   5,  10,  20,  20,  10,   5,   0,
+     0,   5,  10,  20,  20,  10,   5,   0,
+     0,   0,   5,  10,  10,   5,   0,   0,
+     0,   5,   5,  -5,  -5,   0,   5,   0,
+     0,   0,   5,   0, -15,   0,  10,   0
+};
+
+// mirror positional score tables for opposite side
+const int mirror_score[128] =
+{
+	a1, b1, c1, d1, e1, f1, g1, h1,
+	a2, b2, c2, d2, e2, f2, g2, h2,
+	a3, b3, c3, d3, e3, f3, g3, h3,
+	a4, b4, c4, d4, e4, f4, g4, h4,
+	a5, b5, c5, d5, e5, f5, g5, h5,
+	a6, b6, c6, d6, e6, f6, g6, h6,
+	a7, b7, c7, d7, e7, f7, g7, h7,
+	a8, b8, c8, d8, e8, f8, g8, h8
+};
+
+// position evaluation
+int evaluate(struct BoardState board)
+{
+    // static evaluation score
+    int score = 0;
+
+    // current pieces bitboard copy
+    U64 bitboard;
+
+    // init piece & square
+    int piece, square;
+
+    // loop over piece bitboards
+    for (int bb_piece = 0; bb_piece < 12; bb_piece++)
+    {
+        // init piece bitboard copy
+        bitboard = board.bitboards[bb_piece];
+
+        // loop over pieces within a bitboard
+        while (bitboard)
+        {
+            // init piece
+            piece = bb_piece;
+
+            // init square
+            square = bitScan(bitboard);
+
+            // score material weights
+            score += material_score[piece];
+
+            // score positional piece scores
+            switch (piece)
+            {
+                // evaluate white pieces
+                case 0: score += pawn_score[square]; break;
+                case 1: score += knight_score[square]; break;
+                case 2: score += bishop_score[square]; break;
+                case 3: score += rook_score[square]; break;
+                case 5: score += king_score[square]; break;
+
+                // evaluate black pieces
+                case 6: score -= pawn_score[mirror_score[square]]; break;
+                case 7: score -= knight_score[mirror_score[square]]; break;
+                case 8: score -= bishop_score[mirror_score[square]]; break;
+                case 9: score -= rook_score[mirror_score[square]]; break;
+                case 11: score -= king_score[mirror_score[square]]; break;
+                default: break;
+            }
+
+
+            // pop ls1b
+            bitboard ^= (1ULL << square);
+        }
+    }
+
+    // return final evaluation based on side
+    return (board.sideToMove == 0) ? score : -score;
 }

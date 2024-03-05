@@ -3,6 +3,7 @@
 
 typedef unsigned long long  U64;
 
+int ply;
 
 enum square
 {
@@ -179,6 +180,8 @@ betaHF = 2
 };
 
 HashT *hashTable;
+U64 repetitionTable[400];
+int repetitionIndex;
 
 //MAGIC BITBOARDS CONSTANTS
 

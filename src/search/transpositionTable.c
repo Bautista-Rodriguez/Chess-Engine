@@ -2,35 +2,6 @@
 
 unsigned int randomState = 1804289383;
 
-void initHashTable()
-{
-    initKeys();
-    hashTable = (HashT*) malloc(hashSize * sizeof(HashT));
-    clearHashTable();
-    return;
-}
-
-void clearHashTable()
-{
-    memset(hashTable,0,sizeof(HashT)*hashSize);
-    /*
-    for(U64 i = 0ULL;i < hashSize;i++)
-    {
-        hashTable[i].key = 0ULL;
-        hashTable[i].depth = 0;
-        hashTable[i].flags = 0;
-        hashTable[i].score = 0;
-    }
-    */
-    return;
-}
-
-void freeHashTable()
-{
-    free(hashTable);
-    return;
-}
-
 void initKeys()
 {
     for (int j = 0;j < 64;j++)
@@ -95,6 +66,35 @@ U64 get64Bits()
     return (n1 | (n2 << 16) | (n3 << 32) | (n4 << 48));
 }
 
+void initHashTable()
+{
+    initKeys();
+    hashTable = (HashT*) malloc(hashSize * sizeof(HashT));
+    clearHashTable();
+    return;
+}
+
+void clearHashTable()
+{
+    memset(hashTable,0,sizeof(HashT)*hashSize);
+    /*
+    for(U64 i = 0ULL;i < hashSize;i++)
+    {
+        hashTable[i].key = 0ULL;
+        hashTable[i].depth = 0;
+        hashTable[i].flags = 0;
+        hashTable[i].score = 0;
+    }
+    */
+    return;
+}
+
+void freeHashTable()
+{
+    free(hashTable);
+    return;
+}
+
 int hashTableRead(int alpha,int beta,int depth, U64 key)
 {
     HashT *hashEntry = &hashTable[key % hashSize];
@@ -103,6 +103,10 @@ int hashTableRead(int alpha,int beta,int depth, U64 key)
     {
         if(hashEntry->depth >= depth)
         {
+            if(hashEntry->score < -48000)
+                hashEntry->score += ply;
+            if(hashEntry->score > 48000)
+                hashEntry->score -= ply;
             if(hashEntry->flags == exactHF)
                 return hashEntry->score;
             if ((hashEntry->flags == alphaHF) && (hashEntry->score <= alpha))
@@ -117,7 +121,10 @@ int hashTableRead(int alpha,int beta,int depth, U64 key)
 void hashTableWrite(int score,int depth,int hashFlag,U64 key)
 {
     HashT *hashEntry = &hashTable[key % hashSize];
-
+    if(score < -48000)
+        score -= ply;
+    if(score > 48000)
+        score += ply;
     hashEntry->key = key;
     hashEntry->score = score;
     hashEntry->flags = hashFlag;
@@ -125,3 +132,12 @@ void hashTableWrite(int score,int depth,int hashFlag,U64 key)
     return;
 }
 
+int isRepetition(U64 hashKey)
+{
+    for(int i = 0;i < repetitionIndex;i++)
+    {
+        if(repetitionTable[repetitionIndex] == hashKey)
+            return 1;
+    }
+    return 0;
+}
