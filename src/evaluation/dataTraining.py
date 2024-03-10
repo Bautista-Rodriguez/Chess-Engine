@@ -13,7 +13,7 @@ import numpy as np
 board = chess.Board('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3')
 
 class Model(nn.Module):
-    def __init__(self,inputFeatures = 790,h1 = 512,h2 = 128,h3 = 32,h4 = 32,outputFeatures = 1):
+    def __init__(self,inputFeatures = 790,h1 = 1024,h2 = 1024,h3 = 1024,h4 = 1024,outputFeatures = 1):
         super().__init__()
         self.fc1 = nn.Linear(inputFeatures,h1)
         self.fc2 = nn.Linear(h1,h2)
@@ -71,40 +71,40 @@ lossesArray = []
 myModel = Model()
 
 torch.manual_seed(17)
-lossCriteria = nn.L1Loss()
-optimizer = torch.optim.Adam(myModel.parameters(),lr = 0.001)
-epochs = 4
+lossCriteria = nn.MSELoss()
+optimizer = torch.optim.Adam(myModel.parameters(),lr = 0.01)
+epochs = 50
 
-with (open('C:/Users/bauty/Desktop/Bau/ChessNNDataset/lichess_db_eval.jsonl', 'r') as dataSet):
-    for j in range(epochs):
-        print("epochs:", j)
-        for i, line in enumerate(dataSet):
-            if i >= 100000:
-                continue
-            #if i % 1000 == 0:
-            #    print("i equals:",i)
-            strFile = json.loads(line)
-            tensorArray = myModel.boardToTensor(strFile['fen'])
-            #print(tensorArray)
-            if 'cp' in strFile['evals'][0]['pvs'][0]:
-                cp = max(strFile['evals'][0]['pvs'][0]['cp'], -1500)
-                cp = min(cp,1500)
-            else:
-                ss = strFile['evals'][0]['pvs'][0]['mate']
-                if ss > 0:
-                    cp = 1500
-                else:
-                    cp = -1500
-            cp = torch.LongTensor(1)
-            #cp = torch.LongTensor(cp)
-            yPred = myModel.forward(tensorArray)
-            loss = lossCriteria(yPred,cp)
-            lossesArray.append(loss.detach().numpy())
-            if i % 5000 == 0:
-                print(loss, ",",i)
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
+for j in range(epochs):
+  print("epochs:", j)
+  with (open('C:/Users/bauty/Desktop/Bau/ChessNNDataset/lichess_db_eval.jsonl', 'r') as dataSet):
+    for i, line in enumerate(dataSet):
+        if i >= 100:
+              break
+          #if i % 1000 == 0:
+        #print("i equals:",i)
+        #continue
+        strFile = json.loads(line)
+        tensorArray = myModel.boardToTensor(strFile['fen'])
+           #print(tensorArray)
+        if 'cp' in strFile['evals'][0]['pvs'][0]:
+            cp = max(strFile['evals'][0]['pvs'][0]['cp'], -1500)
+            cp = min(cp,1500)
+        else:
+          ss = strFile['evals'][0]['pvs'][0]['mate']
+          if ss > 0:
+            cp = 1500
+          else:
+            cp = -1500
+        cp = torch.FloatTensor([cp])
+        yPred = myModel.forward(tensorArray)
+        loss = lossCriteria(yPred,cp)
+        lossesArray.append(loss.detach().numpy())
+        if i % 10 == 0:
+           print(loss, ",",yPred, cp,i,strFile['fen'])
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
 print("\n-------\nended training!\n-------------\n")
 #print(lossesArray)
 
