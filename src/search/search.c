@@ -37,7 +37,7 @@ void searchMove(struct BoardState board, int depth)
         beta = score + 50;
         printf("depth %i: %i\n",i+1, nodes);
     }
-    decodeMove(pvTable[0][0]);
+    /*decodeMove(pvTable[0][0]);
     decodeMove(pvTable[0][1]);
     decodeMove(pvTable[0][2]);
     decodeMove(pvTable[0][3]);
@@ -46,7 +46,8 @@ void searchMove(struct BoardState board, int depth)
     decodeMove(pvTable[0][6]);
     decodeMove(pvTable[0][7]);
     decodeMove(pvTable[0][8]);
-    exit(17);
+    exit(17);*/
+    return;
 }
 
 int negamax(struct BoardState board, int alpha, int beta, int depth)
